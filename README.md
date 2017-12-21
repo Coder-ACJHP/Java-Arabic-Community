@@ -10,9 +10,9 @@
 1-) Clone or download the sources from this page.
 2-) In terminal or command line go into project root folder and copy this line to run :
 <code>java -jar target/dependency/webapp-runner.jar target/*.war<code>
-</pre>
+</pre><br>
 <div align="center"><b>OR</b></div>
-<h4>Work with live site <a href="http://java-arabic-community.herokuapp.com/AllQuestions">http://java-arabic-community.herokuapp.com/</a><h4><br>
+<p>Work with live site <a href="http://java-arabic-community.herokuapp.com/AllQuestions">http://java-arabic-community.herokuapp.com/</a><p><br>
 <b><i>*Remember you have to edit connection properties file before running the application!</i></b>
 
 <h2>Goals :</h2> 
