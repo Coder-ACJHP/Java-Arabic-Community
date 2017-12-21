@@ -205,13 +205,13 @@ public class MainSpringController {
 				try {
 					coderSender.send((MimeMessage mimeMessage) -> {
                                             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-                                            message.setFrom("java.arabaic.community@gmail.com");
+                                            message.setFrom("java.arabic.community@gmail.com");
                                             message.setTo(usr.getEMAIL());
                                             message.setSubject("Java Arabic Community Reset Password");
                                             message.setText(body, true);
                                         });
 				} catch (MailException e) {
-					redirectAttrs.addFlashAttribute("error", "Permission error! Cannot send email right now, please try again later.");
+					redirectAttrs.addFlashAttribute("error", e.getLocalizedMessage());
 					return "redirect:ForgotPassword";
 				}
 				
