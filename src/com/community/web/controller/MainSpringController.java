@@ -205,7 +205,7 @@ public class MainSpringController {
 				try {
 					coderSender.send((MimeMessage mimeMessage) -> {
                                             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-                                            message.setFrom("hexa.octabin@gmail.com");
+                                            message.setFrom("java.arabaic.community@gmail.com");
                                             message.setTo(usr.getEMAIL());
                                             message.setSubject("Java Arabic Community Reset Password");
                                             message.setText(body, true);
