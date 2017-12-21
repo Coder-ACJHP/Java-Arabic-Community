@@ -1,0 +1,37 @@
+html, body{
+	padding:0px; 
+	margin:0;
+	height: 100%;
+	min-height: 100%;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+
+.list-img {
+    float: left;
+	width: 48px;
+    height: 48px;
+    margin-right: 4px;
+    border-radius:3px;
+}
+
+div.ex {
+    width:950px;
+    margin: auto;
+    font-size: 20px;
+    padding-top: 0;
+    padding-bottom: 15px;
+}
+
+.mydiv {
+	border-radius: 5px; 
+	
+}
+
+.mydiv:hover {
+
+	background-color:#e0f3ff;
+	border-radius: 8px;
+}
+
+
