@@ -26,15 +26,14 @@
 <!-- HANDLE ALL MESSAGES COMING FROM BACKEND -->
     <c:if test="${not empty error}">
 		<script type="text/javascript">
-			sweetAlert("${headerError}", "${error}", "error");
+			sweetAlert("Oops...", "${error}", "error");
+		</script>
+	</c:if>      
+	<c:if test="${not empty success}">
+		<script type="text/javascript">
+			sweetAlert('Excellent!', "${success}", "success");
 		</script>
 	</c:if>
-	<c:if test="${not empty message}">
-		<script type="text/javascript">
-			swal('${message}');
-		</script>
-	</c:if>        
-	
 <div class="container">
 		<div class="row">
 			<div class="col-md-6 col-lg-offset-3">

@@ -18,6 +18,8 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
     <!-- BOOTSTRAP DEPENDENCIES END-->
 
+	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/customFunctions.js"></script>
+	
 	<!-- SWEET ALERT DEPENDENCIES -->
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/sweetalert.min.js"></script>
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sweetalert.css">
@@ -226,7 +228,7 @@
 								</div>
 								<div class="btn-group">
 									<button class="btn btn-success" type="submit">
-										<span class="glyphicon glyphicon-ok"></span> Register
+										<span class="glyphicon glyphicon-ok"></span> Update
 									</button>
 								</div>
 							</div>
@@ -246,11 +248,12 @@
 				<div class="col-lg-10 col-lg-offset-1">
 					<div class="col-lg-6">
 						<nav aria-label="breadcrumb" role="navigation">
-							<ol class="breadcrumb"
-								style="background-color: #0095ff; color: white;">
-								<h3>
-									<b>Update your password</b>
-								</h3>
+							<ol class="breadcrumb" style="background-color: #0095ff; color: white;">
+								<li>
+									<h3>
+										<b>Update your password</b>
+									</h3>
+								</li>
 							</ol>
 						</nav>
 						<hr>
@@ -290,21 +293,22 @@
 								</div>
 							</div> <br>	
 							<div class="row">
-								<div class="col-md-8" style="text-align: center;">
-									<button type="submit" class="btn btn-info" >
+								<div class="col-md-12" style="text-align: center;">
+									<button type="submit" class="btn btn-info btn-block" >
 										<span class="glyphicon glyphicon-cog"></span> Update password
 									</button>
 								</div>
 							</div>
 						</form:form>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-lg-6" id="danger-zone">
 						<nav aria-label="breadcrumb" role="navigation">
-							<ol class="breadcrumb"
-								style="background-color: #e81070; color: white;">
-								<h3>
-									<b>Delete your account</b>
-								</h3>
+							<ol class="breadcrumb" style="background-color: #e81070; color: white;">
+								<li>
+									<h3>
+										<b>Delete your account</b>
+									</h3>
+								</li>
 							</ol>
 						</nav>
 						<hr>
@@ -313,18 +317,19 @@
 						</c:url>
 						<!-- <input type="hidden" name="ID" value="${user.ID}"/> -->
 							<div class="row">
-								<div class="col-md-8">
+								<div class="col-md-12">
 									<label>Are you sure ?</label> 
-									<label style="font-size: 14px;">
-											User deletion is irreversible!<br>
-											By sending this request, your votes will be revoked, and all
+									<p style="font-size: 14px; text-align: left;">
+											User deletion is irreversible!
+											Deleting your user account or by sending this request, 
+											your votes will be revoked, and all
 											of your content will be made anonymous.
-									</label>
+									</p>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-8" style="text-align: center;">
-									<button type="button" onclick="ask()" class="btn btn-danger">
+								<div class="col-md-12" style="text-align: center;">
+									<button type="button" id="delete-btn" class="btn btn-danger btn-block">
 										<span class="glyphicon glyphicon-trash"></span> Delete account
 									</button>
 								</div>
@@ -343,27 +348,5 @@
 	</div> 
 	
 	<jsp:include page="footer.jsp" />
-	<script type="text/javascript">
-		function ask() {
-			swal({
-				  title: "Are you sure?",
-				  text: "Are you sure you want to delete this account?",
-				  type: "warning",
-				  showCancelButton: true,
-				  confirmButtonColor: "#DD6B55",
-				  confirmButtonText: "Yes, delete it!",
-				  cancelButtonText: "No, cancel plx!",
-				  closeOnConfirm: false,
-				  closeOnCancel: false
-				},
-				function(isConfirm){
-				  if (isConfirm) {
-					  window.location.href='${DeleteAccount}'; return false;
-				  } else {
-				    swal("Cancelled", "Your imaginary account is safe :)", "error");
-				  }
-				});
-		}
-	</script>
 </body>
 </html>

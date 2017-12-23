@@ -30,9 +30,9 @@
 		sweetAlert("${headerError}", "${error}", "error");
 	</script>
 </c:if>
-<c:if test="${not empty message}">
+<c:if test="${not empty success}">
 	<script type="text/javascript">
-		swal('${message}');
+		sweetAlert('Excellent!''${success}', 'success');
 	</script>
 </c:if>
 	

@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/customFunctions.js"></script>
     <!-- BOOTSTRAP DEPENDENCIES END-->
-    <style type="text/css">body{width: 100% !important;}</style>
 </head>
 <body>
 
@@ -27,10 +27,11 @@
 
 <nav class="navbar navbar-inverse" >
     <div class="container-fluid">
-        <div class="navbar-header" id="navHeader">
-      		<a href="https://java-arabic-community.herokuapp.com/AllQuestions" title="Go to Home page">
+        <div class="navbar-header" id="navHeader" title="Go to Home page">
+      		<a href="https://java-arabic-community.herokuapp.com/AllQuestions">
             	<img class="nav-logo" alt="Logo not found!" src="${pageContext.request.contextPath}/resources/images/miniLogo.png">
             </a>
+            <p id="nav-header-p">Java Arabic Commumity<br>Q &amp; A website</p>
     </div>
         <ul class="nav navbar-nav navbar-center">
             <li class="nav-center-li">

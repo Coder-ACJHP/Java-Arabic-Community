@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -29,29 +30,31 @@ import com.community.web.entity.Question;
 import com.community.web.entity.Users;
 import com.community.web.service.CommunityService;
 import com.community.web.util.PasswordResetMessage;
-import org.springframework.mail.MailException;
 
 @Controller
 public class MainSpringController {
 
 	@Autowired
-	private CommunityService communityService;
-
+	private JavaMailSender mailSender;
+	
 	@Autowired
-	private JavaMailSender coderSender;
-
-	@Value("#{countriesOption}")
+	private CommunityService communityService;
+	
+	//inject country list form properties file.
+	@Value("#{countriesOption}") 
 	private Map<String, String> countryOptions;
 
+	private final String EMAIL = "java.arabic.community@gmail.com";
 	
 	@GetMapping(value={"/", "/AllQuestions"}) //HOMEPAGE
 	public String showQuestionlist(Model model) {
+		
 		Integer offset = 1;
-		Integer maxresults = 100; // questions limit per page.
+		final Integer maxresults = 100; // questions limit per page.
 		Long maxQC = 0L;
 		
-		List<Question> questionsList = communityService.getQuestionsListByLimit(offset, maxresults);
-		Map<Users, String> userInfoMap = new HashMap<>();
+		final List<Question> questionsList = communityService.getQuestionsListByLimit(offset, maxresults);
+		final Map<Users, String> userInfoMap = new HashMap<>();
 		for (Question q : questionsList) {
 			maxQC++;
 			Users users = communityService.getUserById(q.getUSERID());
@@ -60,7 +63,7 @@ public class MainSpringController {
 			userInfoMap.put(users, base64Encoded);
 		}
 		
-		List<Answer> answerList = communityService.getAnswersList();
+		final List<Answer> answerList = communityService.getAnswersList();
 		model.addAttribute("questionList", questionsList);
 		model.addAttribute("answerList", answerList);
 		model.addAttribute("userMap", userInfoMap);
@@ -71,8 +74,9 @@ public class MainSpringController {
 
 	@GetMapping("/TopQuestions")
 	public String getTopQuestions(Model model) {
-		List<Question> questionsList = communityService.getTopQuestions();
-		Map<Users, String> userInfoMap = new HashMap<>();
+		
+		final List<Question> questionsList = communityService.getTopQuestions();
+		final Map<Users, String> userInfoMap = new HashMap<>();
 		Long maxQC = 0L;
 		
 		for (Question q : questionsList) {
@@ -83,7 +87,7 @@ public class MainSpringController {
 			userInfoMap.put(users, base64Encoded);
 		}
 		
-		List<Answer> answerList = communityService.getAnswersList();
+		final List<Answer> answerList = communityService.getAnswersList();
 		model.addAttribute("questionList", questionsList);
 		model.addAttribute("answerList", answerList);
 		model.addAttribute("userMap", userInfoMap);
@@ -94,58 +98,62 @@ public class MainSpringController {
 	
 	@GetMapping("/SignIn")
 	public String singIn(Model model) {
-		Users users = new Users();
+		
+		final Users users = new Users();
 		model.addAttribute("user", users);
 		return "user-signIn";
 	}
 
 	@GetMapping("/SignUp")
 	public String singUp(Model model) {
-		Users theUser = new Users();
-		Map<String, String> treeMap = new TreeMap<>(countryOptions);
+		
+		final Users theUser = new Users();
+		final Map<String, String> treeMap = new TreeMap<>(countryOptions);
 		model.addAttribute("countriesOption", treeMap);
 		model.addAttribute("user", theUser);
 		return "user-register";
 	}
 
 	@PostMapping("LoginForm")
-	public String Login(@ModelAttribute("user") Users users, 
-			Model model, HttpServletRequest request,
+	public String Login(@ModelAttribute("user") Users users, Model model, HttpServletRequest request,
 			final RedirectAttributes redirectAttributes) {
-		
-            boolean isRegistered = communityService.checkAuth(users.getEMAIL(), users.getPASSWORD());
-		
-            if (isRegistered) {
-                Users theUser = communityService.getUserByEmail(users.getEMAIL());
-		byte[] encodeBase64 = Base64.encodeBase64(theUser.getPICTURE());
-		final String base64Encoded = new String(encodeBase64);
-		request.getSession().setAttribute("loggedInUserPicture", base64Encoded);
-		request.getSession().setAttribute("loggedInUserId", theUser.getID());
-		request.getSession().setAttribute("loggedInUserNickname", theUser.getNICKNAME());
-		request.getSession().setAttribute("loggedInUserRegDate", theUser.getREGISTERDATE().substring(0, 10));
-		request.getSession().setAttribute("loggedInUserVote", theUser.getVOTE());
-		
-		return "redirect:AllQuestions";
-		
-            } else {
-		model.addAttribute("error", "Incorrect email or password. Please try again.");
-		return "user-signIn";
-            }
+
+		String sendTo = "";
+		boolean isRegistered = communityService.checkAuth(users.getEMAIL(), users.getPASSWORD());
+
+		if (isRegistered) {
 			
+			final Users theUser = communityService.getUserByEmail(users.getEMAIL());
+			byte[] encodeBase64 = Base64.encodeBase64(theUser.getPICTURE());
+			final String base64Encoded = new String(encodeBase64);
+			request.getSession().setAttribute("loggedInUserPicture", base64Encoded);
+			request.getSession().setAttribute("loggedInUserId", theUser.getID());
+			request.getSession().setAttribute("loggedInUserNickname", theUser.getNICKNAME());
+			request.getSession().setAttribute("loggedInUserRegDate", theUser.getREGISTERDATE().substring(0, 10));
+			request.getSession().setAttribute("loggedInUserVote", theUser.getVOTE());
+
+			sendTo = "redirect:AllQuestions";
+
+		} else {
+			model.addAttribute("error", "Incorrect email or password. Please try again.");
+			sendTo = "user-signIn";
+		}
+		return sendTo;
 	}
 
 	@GetMapping("/Loguot")
-	public String Logout(HttpServletResponse response, HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException {
+	public String Logout(HttpServletResponse response, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+		
 		request.removeAttribute("loggedInUser");
 		request.getSession().invalidate();
 		redirectAttributes.addFlashAttribute("message", "We hope to see you again as soon.");
-		
-                return "redirect:AllQuestions";
+		return "redirect:AllQuestions";
 	}
 
 	@GetMapping("DeleteAccount")
 	public String deleteAccout(@RequestParam("ID") int theId, Model model) throws IOException {
-		List<Question> ql = communityService.getQuestionListByUserId(theId);
+		
+		final List<Question> ql = communityService.getQuestionListByUserId(theId);
 		for(Question q:ql) {
 			communityService.changeQuestionAsGuess(q.getID());
 			List<Answer> al = communityService.getAnswersList(q.getID());
@@ -166,8 +174,9 @@ public class MainSpringController {
 
 	@PostMapping("/Search")
 	public String searchQuestion(@RequestParam("theSearchName") String theSearchName, Model model) {
-		List<Question> theQuestion = communityService.searchQuestion(theSearchName);
-		Map<Users, String> userInfoMap = new HashMap<>();
+		
+		final List<Question> theQuestion = communityService.searchQuestion(theSearchName);
+		final Map<Users, String> userInfoMap = new HashMap<>();
 		Long maxQC = 0L;
 		
 		for (Question q : theQuestion) {
@@ -178,7 +187,7 @@ public class MainSpringController {
 			userInfoMap.put(users, base64Encoded);
 		}
 		
-		List<Answer> answerList = communityService.getAnswersList();
+		final List<Answer> answerList = communityService.getAnswersList();
 		model.addAttribute("questionList", theQuestion);
 		model.addAttribute("answerList", answerList);
 		model.addAttribute("userMap", userInfoMap);
@@ -189,40 +198,38 @@ public class MainSpringController {
 
 	@PostMapping("/SendEmail")
 	public String sendEmail(@ModelAttribute("user") Users users, RedirectAttributes redirectAttrs) {
+		
 		if (users.getEMAIL() != null) {
-			Users usr = communityService.getUserByEmail(users.getEMAIL());
+			
+			final Users usr = communityService.getUserByEmail(users.getEMAIL());
+			
 			if (usr != null) {
-				
 				//Generate an unique code and send to user.
 				final UUID uuid = UUID.randomUUID();
-				
 				//Save it in user profile in database.
 				communityService.setUUIDofUser(usr.getID(), uuid.toString());
-				
 				//Generate body of email to send...
 				String body = new PasswordResetMessage().getMessageBody(usr.getNICKNAME(), uuid.toString(), usr.getID());
 				
 				try {
-					coderSender.send((MimeMessage mimeMessage) -> {
-                                            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-                                            message.setFrom("java.arabic.community@gmail.com");
-                                            message.setTo(usr.getEMAIL());
-                                            message.setSubject("Java Arabic Community Reset Password");
-                                            message.setText(body, true);
-                                        });
+					
+					mailSender.send((MimeMessage mimeMessage) -> {
+						MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+						message.setFrom(EMAIL);
+						message.setTo(usr.getEMAIL());
+						message.setSubject("Java Arabic Community Reset Password");
+						message.setText(body, true);
+					});
+					
 				} catch (MailException e) {
 					redirectAttrs.addFlashAttribute("error", e.getLocalizedMessage());
-					return "redirect:ForgotPassword";
 				}
 				
-				redirectAttrs.addFlashAttribute("message", "Thank you "+usr.getNICKNAME()+", your email has been sent please check your mailbox.");
-			} else {
-				redirectAttrs.addFlashAttribute("error", "The email you entered is not registered! Please be sure.");
-			}
-		} else {
-			redirectAttrs.addFlashAttribute("error", "Please enter your email in the blank!");
-			return "redirect:ForgotPassword";
-		}
+				redirectAttrs.addFlashAttribute("success", "Thank you "+usr.getNICKNAME()+", your email has been sent please check your mailbox.");
+				
+			} else { redirectAttrs.addFlashAttribute("error", "The email you entered is not registered! Please be sure.");}
+		} else { redirectAttrs.addFlashAttribute("error", "Please enter your email in the blank!");}
+		
 		return "redirect:ForgotPassword";
 	}
 
@@ -230,5 +237,39 @@ public class MainSpringController {
 	public String infoPage() {
 		return "info";
 	}
+	
+	@GetMapping("/Suggestion")
+	public String suggestionPage(Model model) {
+		
+		final Map<String, String> treeMap = new TreeMap<>(countryOptions);
+		model.addAttribute("countriesOption", treeMap);
+		return "suggestion-page";
+	}
 
+	@PostMapping("/SendSuggest")
+	public String sendSuggest(@RequestParam("name") String name, @RequestParam("email") String email,
+			@RequestParam("country") String country, @RequestParam("category") String category,
+			@RequestParam("subject") String subject, @RequestParam("message") String message,
+			Model model, RedirectAttributes redirectAttrs) {
+		
+		final String messageBody = "<h4>Sender : "+name+"</h4><h4>Country : "+country+"</h4>"
+				+ "<h4>Category : "+category+"</h4><pre>"+message+"</pre>";
+		
+		try {
+			mailSender.send((MimeMessage mimeMessage)-> {
+				MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+				messageHelper.setFrom(email);
+				messageHelper.setTo("onur.isik@codeforiraq.org");
+				messageHelper.setSubject(subject);
+				messageHelper.setText(messageBody, true);
+			});
+			
+			redirectAttrs.addFlashAttribute("success", "Thank you "+name+", your "+category+" has been sent successfully.");
+			
+		} catch (MailException e) {
+			redirectAttrs.addFlashAttribute("error", e.getLocalizedMessage());
+		}
+		
+		return "redirect:Suggestion";
+	}
 }

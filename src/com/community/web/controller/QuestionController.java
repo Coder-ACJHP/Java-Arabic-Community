@@ -56,13 +56,13 @@ public class QuestionController {
 		
 		if (status == true) {
 
-			List<Answer> theAnswerList = communityService.getAnswersList(theQuestion.getID());
-			Map<Integer, List<Acomment>> mapList = new HashMap<>();
-			Map<Users, String> userMap = new HashMap<>();
+			final List<Answer> theAnswerList = communityService.getAnswersList(theQuestion.getID());
+			final Map<Integer, List<Acomment>> mapList = new HashMap<>();
+			final Map<Users, String> userMap = new HashMap<>();
 			
 			for (Answer a : theAnswerList) {
 				
-				List<Acomment> theAcommentList = communityService.getAcommentList(a.getID());
+				final List<Acomment> theAcommentList = communityService.getAcommentList(a.getID());
 				Users aUser = communityService.getUserById(a.getUSERID());
 				byte[] aEncodeBase64 = Base64.encodeBase64(aUser.getPICTURE());
 				String aBase64Encoded = new String(aEncodeBase64);
@@ -98,8 +98,8 @@ public class QuestionController {
 	@GetMapping("/DeleteQuestion")
 	public String DeleteQuestion(@RequestParam("questionId") int theId, RedirectAttributes redirectAttributes) {
 
-		Question question = communityService.getQuestionById(theId);
-		List<Answer> answerList = communityService.getAnswersList(question.getID());
+		final Question question = communityService.getQuestionById(theId);
+		final List<Answer> answerList = communityService.getAnswersList(question.getID());
 
 		for (Answer a : answerList) {
 			communityService.deleteAcommentByAnswerId(a.getID());
@@ -109,8 +109,7 @@ public class QuestionController {
 		communityService.deleteQcommentByQuestionId(question.getID());
 		communityService.deleteAnswerByQuestionId(question.getID());
 		communityService.downVoteUser(theId, 20);
-		redirectAttributes.addFlashAttribute("message",
-				"Your question deleted successfully but you lost 20 reputation.");
+		redirectAttributes.addFlashAttribute("message", "Your question deleted successfully but you lost 20 reputation.");
 		return "redirect:AllQuestions";
 	}
 
@@ -143,19 +142,24 @@ public class QuestionController {
 	@PostMapping("/questionComment")
 	public String addCommentToQuestion(@ModelAttribute("qcomment") Qcomment qcomment, Model model) {
 
+		String sendTo = "";
 		int Id = qcomment.getQUESTIONID();
 
 		if (!qcomment.getCOMMENT().isEmpty()) {
+			
 			communityService.saveQcomment(qcomment);
 			Qcomment theComment = new Qcomment();
 			model.addAttribute("qcomment", theComment);
-			return "redirect:Question?questionId=" + Id;
+			sendTo = "redirect:Question?questionId=" + Id;
+			
 		} else {
+			
 			model.addAttribute("question_error", "Comment can not be blank!");
 			Qcomment theComment = new Qcomment();
 			model.addAttribute("qcomment", theComment);
-			return "redirect:Question?questionId=" + Id;
+			sendTo = "redirect:Question?questionId=" + Id;
 		}
+		return sendTo;
 	}
 
 	@GetMapping("/UpVoteQuestion")

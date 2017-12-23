@@ -70,8 +70,6 @@ input, textarea, select{font-size:12px; font-family:Georgia,"Times New Roman",Ti
 
 /*----------------------------------------------Header-------------------------------------*/
 
-#header{padding:20px 0;}
-
 #header #hgroup{float:left; margin:0 0 20px 0;}
 #header #hgroup h1, #header #hgroup h2{font-weight:normal; text-transform:none;}
 #header #hgroup h1{font-size:36px;}

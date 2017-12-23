@@ -29,12 +29,11 @@
 			sweetAlert("Oops...", "${error}", "error");
 		</script>
 	</c:if>
-	<c:if test="${not empty message }">
+	<c:if test="${not empty success}">
 		<script type="text/javascript">
-			swal("${message}");
+			sweetAlert('Excellent!', "${success}", "success");
 		</script>
 	</c:if>
-	
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-lg-offset-3">

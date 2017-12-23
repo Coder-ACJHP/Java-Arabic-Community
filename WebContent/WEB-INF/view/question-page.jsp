@@ -15,6 +15,8 @@
     
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
     
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/customFunctions.js"></script>
+    
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sweetalert.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/sweetalert.min.js"></script>
     
@@ -31,7 +33,7 @@
 <body>
  <c:if test="${not empty question_error}">
     <script type="text/javascript">
-        swal("${message}")
+        swal("${message}");
     </script>
 </c:if>  
 <c:if test="${not empty error}">
@@ -58,7 +60,7 @@
 
 	<div class="container">            	    	
     	<div class="row">
-    		<div class="col-lg-11 col-lg-offset-1">
+    		<div class="col-lg-10 col-lg-offset-1">
 				<div class="col-sm-2">
 					<p style="font-size: 18px; min-width: 150px;"><b>Question : ${question.ID}</b></p>
 				</div>
@@ -148,7 +150,7 @@
            	   <div class="col-md-10">
                     <div class="question-td">
                         <c:if test="${question.USERID==sessionScope[myUserId]}">
-                            <a class="editlink" onclick="ask();" href="${deleteQuestion }">Delete</a>
+                            <a class="editlink" id="delete-qstn" >Delete</a>
                         </c:if>
                     </div>
            		</div>
@@ -317,7 +319,7 @@
 				<div class="question-td">
 					<div class="col-md-10">
 						<c:if test="${tempAnswerList.USERID==sessionScope[myUserId]}">
-							<a class="editlink" href="${DeleteAnswer }">Delete</a>
+							<a class="editlink" id="delete-answr">Delete</a>
 						</c:if>
 					</div>		
 				</div>
@@ -442,29 +444,7 @@
      <!-- JUST FOR SOME WHITE SPACE -->
      <div class="row"><div class="col-lg-12">&nbsp;&nbsp;&nbsp;</div></div>
 </div><!-- CONTAINER -->                
-<script type="text/javascript">
-	function ask() {
-			swal({
-			title : "Are you sure?",
-			text : "Are you sure you want to delete this question?",
-			type : "warning",
-			showCancelButton : true,
-			confirmButtonColor : "#DD6B55",
-			confirmButtonText : "Yes, delete it!",
-			cancelButtonText : "No, cancel plx!",
-			closeOnConfirm : false,
-			closeOnCancel : false
-		}, function(isConfirm) {
-			if (isConfirm) {
-				window.location.href = '${deleteQuestion}';
-				return false;
-			} else {
-				swal("Cancelled", "Your imaginary account is safe :)",
-						"error");
-			}
-		});
-	}
-</script>
+
 </body>
 <jsp:include page="footer.jsp" />
 </html>

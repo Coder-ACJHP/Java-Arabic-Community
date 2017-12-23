@@ -22,7 +22,7 @@
 				</h1>
 				<h2>Java Arabic Community answer question website.</h2>
 			</div>
-			<div id="hgroup" style="margin-left: 350px; margin-top: 50px;">
+			<div id="hgroup" style="margin-left: 350px; margin-top: 25px;">
 
 				<spring:message code="label.askQuestion" var="LabelAskQues" />
 				<button type="button" class="btn btn-primary" style="width: 150px;"
@@ -38,6 +38,12 @@
 					<span class="glyphicon glyphicon-fire" style="color: red;"></span> ${LabelQuestions}
 				</button>
 
+			</div>
+			<div id="hgroup" style="margin-left: 350px;">
+				<button type="button" class="btn btn-info" style="width: 300px;"
+					onclick="window.location.href='Suggestion'; return false;">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> Say some thing about J.A.C
+				</button>
 			</div>
 		</header>
 	</div>

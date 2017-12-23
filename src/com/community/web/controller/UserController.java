@@ -2,6 +2,7 @@ package com.community.web.controller;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,6 @@ import com.community.web.entity.Ucomment;
 import com.community.web.entity.Users;
 import com.community.web.service.CommunityService;
 import com.community.web.util.VerifyRecaptcha;
-import java.time.LocalDateTime;
 
 @Controller
 public class UserController {
@@ -43,11 +43,12 @@ public class UserController {
 
 	@GetMapping("/Users")
 	public String showUserCV(@RequestParam("answerUserId") int theId, Model model) {
-		Users theUser = communityService.getUserById(theId);
+		
+		final Users theUser = communityService.getUserById(theId);
 		byte[] encodeBase64 = Base64.encodeBase64(theUser.getPICTURE());
 		String base64Encoded = new String(encodeBase64);
 		theUser.setPASSWORD(""); //reset the password because is already encoded and force the user write it again
-		Map<String, String> treeMap = new TreeMap<String, String>(countryOptions);
+		final Map<String, String> treeMap = new TreeMap<String, String>(countryOptions);
 		model.addAttribute("countriesOption", treeMap);
 		model.addAttribute("userImage", base64Encoded);
 		model.addAttribute("user", theUser);
@@ -84,12 +85,13 @@ public class UserController {
 			@RequestParam("g-recaptcha-response") String gRecaptchaResponse, HttpServletRequest request,
 			final RedirectAttributes redirectAttrs) throws Exception {
 		
+		String sendTo = "";
 		final String ErrorMessage = "There is an account with that email adress: ";
 		
 		if(communityService.getUserByEmail(users.getEMAIL()) != null) {
 			
 			redirectAttrs.addFlashAttribute("error", ErrorMessage + users.getEMAIL());
-			return "redirect:SignUp";
+			sendTo = "redirect:SignUp";
 			
 		}else {
 			
@@ -97,27 +99,26 @@ public class UserController {
 			
 			if(verify) {
 				if (fileUpload.isEmpty()) {
+					
 					File theFile = new File(servletContext.getRealPath("/resources/images/nouser.jpg"));
 					byte[] array = Files.readAllBytes(theFile.toPath());
 					users.setPICTURE(array);
 					
-				} else {
-
-					users.setPICTURE(fileUpload.getBytes());
-				}
+				} else {users.setPICTURE(fileUpload.getBytes());}
 				
-                                users.setREGISTERDATE(LocalDateTime.now().toString());
-				communityService.saveUser(users);
-                                
-				redirectAttrs.addFlashAttribute("message", "Your registration has been completed successfully");
+                users.setREGISTERDATE(LocalDateTime.now().toString());
+				communityService.saveUser(users);      
+				redirectAttrs.addFlashAttribute("success", "Your registration has been completed successfully");
 				redirectAttrs.addFlashAttribute("email", users.getEMAIL());
-				return "redirect:SignIn";
+				sendTo = "redirect:SignIn";
+				
 			}else {
+				
 				redirectAttrs.addFlashAttribute("error", "You missed the Captcha!, It must be used or maybe It returned false!");
-				return "redirect:SignUp";
+				sendTo = "redirect:SignUp";
 			}
 		}
-		
+		return sendTo;
 	}
 	
 	@PostMapping("/UpdateUser")
@@ -130,13 +131,11 @@ public class UserController {
 
 		if (verify) {
 			if (fileUpload.isEmpty()) {
-				File theFile = new File(servletContext.getRealPath("/resources/images/nouser.jpg"));
+				final File theFile = new File(servletContext.getRealPath("/resources/images/nouser.jpg"));
 				byte[] array = Files.readAllBytes(theFile.toPath());
 				users.setPICTURE(array);
-			} else {
-
-				users.setPICTURE(fileUpload.getBytes());
-			}
+				
+			} else {users.setPICTURE(fileUpload.getBytes());}
 
 			communityService.saveUser(users);
 			redirectAttrs.addFlashAttribute("message", "Your profile updated successfully.");
@@ -151,7 +150,9 @@ public class UserController {
 	@PostMapping("/UpdatePassword")
 	public String updatePassword(@ModelAttribute("user") Users theUser, @RequestParam("newPsw") String newPsw,
 			@RequestParam("confirmPsw") String confirmPsw, @RequestParam("UUID") String UUIDkey, RedirectAttributes redirectAtt) {
-
+		
+		String sendTo = "";
+		
 		if (theUser != null) {
 			Users usr = communityService.getUserById(theUser.getID());
 			
@@ -159,18 +160,18 @@ public class UserController {
 				if (newPsw.equals(confirmPsw)) {
 
 					communityService.updateUserPassword(usr.getID(), newPsw);
-					redirectAtt.addFlashAttribute("message", "Your password changed successfully.");
-					return "redirect:AllQuestions";
+					redirectAtt.addFlashAttribute("success", "Your password changed successfully.");
+					sendTo = "redirect:AllQuestions";
 				}else {
 					redirectAtt.addFlashAttribute("error", "Passwords are doesn't match!");
-					return "redirect:Resetpassword?userId="+theUser.getID();
+					sendTo = "redirect:Resetpassword?userId="+theUser.getID();
 				}
 			}else {
 				redirectAtt.addFlashAttribute("error", "Invalid or expired unique key");
-				return "redirect:Resetpassword?userId="+theUser.getID();
+				sendTo = "redirect:Resetpassword?userId="+theUser.getID();
 			}
 		}
-		return null;
+		return sendTo;
 	}
 
 	@GetMapping("/Resetpassword")
@@ -182,8 +183,8 @@ public class UserController {
 	
 	@PostMapping("/SearchUser")
 	public String searchUser(@RequestParam("theSearchUser") String searchName, Model model) {
-		List<Users> allUsersList = communityService.searchUser(searchName);
-		List<String> pictureList = new ArrayList<>();
+		final List<Users> allUsersList = communityService.searchUser(searchName);
+		final List<String> pictureList = new ArrayList<>();
 
 		for (Users users : allUsersList) {
 			byte[] encodeBase64 = Base64.encodeBase64(users.getPICTURE());
@@ -198,8 +199,8 @@ public class UserController {
 
 	@GetMapping("/Users-list")
 	public String usersList(Model model) {
-		List<Users> allUsersList = communityService.getUserList();
-		List<String> pictureList = new ArrayList<>();
+		final List<Users> allUsersList = communityService.getUserList();
+		final List<String> pictureList = new ArrayList<>();
 
 		for (Users users : allUsersList) {
 			byte[] encodeBase64 = Base64.encodeBase64(users.getPICTURE());

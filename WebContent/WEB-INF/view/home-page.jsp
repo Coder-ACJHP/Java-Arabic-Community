@@ -77,7 +77,7 @@
     
     	
     	<div class="row">
-    		<div class="col-lg-9 col-lg-offset-2">
+    		<div class="col-lg-10 col-lg-offset-2">
 				<div class="col-sm-2">
 					<c:choose>
 						<c:when test="${not empty Label}">
@@ -140,7 +140,7 @@
   				<div class="col-lg-8 col-lg-offset-2" id="questionCardRow">
 		            <div class="card-block">
 		            
-						<div class="col-md-1 center-block" style="margin-top: 20px;">
+						<div class="col-md-1 center-block" style="margin-top: 15px;">
 							<c:url var="Question" value="/Question">
 								<c:param name="questionId" value="${tempQuestionsList.ID}" />
 							</c:url>
