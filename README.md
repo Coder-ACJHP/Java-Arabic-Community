@@ -6,12 +6,12 @@
    <label style="font-style: oblique; color:#ffa500; float:left;"> This project is being carried out by Coder ACJHP.</label>
 </div>
 <h3>How to run : </h3>
-<pre>
-  The application is ready to deploy and all dependencies injected (database, server etc.) just you need :
-  1-) Clone or download the sources from this page.
-  2-) In terminal or command line go into project root folder and copy this line to run :
+<ol>
+  <p>The application is ready to deploy and all dependencies injected (database, server etc.) just you need :</p>
+  <li> Clone or download the sources from this page.</li>
+  <li> In terminal or command line go into project root folder and copy this line to run :</li>
   <code>java -jar target/dependency/webapp-runner.jar target/*.war<code>
-</pre>
+</ol>
 
 <h3>Work with live site: </h3> <a href="https://java-arabic-community.herokuapp.com/AllQuestions">https://java-arabic-community.herokuapp.com/</a><br>
 <del><i>*Remember you have to edit connection properties file before running the application!</i></del>
