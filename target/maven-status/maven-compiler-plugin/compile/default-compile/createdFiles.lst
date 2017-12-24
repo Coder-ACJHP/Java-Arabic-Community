@@ -1,5 +1,6 @@
 com/community/web/controller/MainSpringController.class
 com/community/web/dao/UcommentDAOImpl.class
+com/community/web/dao/AuthoritiesDAOImpl.class
 com/community/web/entity/Ucomment.class
 com/community/web/service/CommunityService.class
 com/community/web/entity/Users.class
@@ -7,6 +8,7 @@ com/community/web/controller/QuestionController.class
 com/community/web/controller/ErrorHandlerController.class
 com/community/web/dao/UcommentDAO.class
 com/community/web/util/PasswordResetMessage.class
+com/community/web/dao/AuthoritiesDAO.class
 com/community/web/test/MysqlTableRelationship.class
 com/community/web/controller/AnswerController.class
 com/community/web/controller/UserController.class

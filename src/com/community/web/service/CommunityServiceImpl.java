@@ -9,12 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.community.web.dao.AcommentDAO;
 import com.community.web.dao.AnswerDAO;
+import com.community.web.dao.AuthoritiesDAO;
 import com.community.web.dao.QcommentDAO;
 import com.community.web.dao.QuestionDAO;
 import com.community.web.dao.UcommentDAO;
 import com.community.web.dao.UserDAO;
 import com.community.web.entity.Acomment;
 import com.community.web.entity.Answer;
+import com.community.web.entity.Authorities;
 import com.community.web.entity.Qcomment;
 import com.community.web.entity.Question;
 import com.community.web.entity.Ucomment;
@@ -40,6 +42,9 @@ public class CommunityServiceImpl implements CommunityService {
 	
 	@Autowired
 	private UcommentDAO ucommentDAO;
+	
+	@Autowired
+	private AuthoritiesDAO authoritiesDAO;
 	
 	@Override
 	@Transactional
@@ -383,6 +388,26 @@ public class CommunityServiceImpl implements CommunityService {
 	@Transactional
 	public void setQuestionUnAnswered(int id) {
 		questionDAO.setQuestionUnAnswered(id);
+		
+	}
+
+	@Override
+	@Transactional
+	public Authorities getAuthoritiesByEmail(String email) {
+		return authoritiesDAO.getAuthoritiesByEmail(email);
+	}
+
+	@Override
+	@Transactional
+	public void saveAuthority(Authorities authorities) {
+		authoritiesDAO.saveAuthority(authorities);
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteAuthority(int theId) {
+		authoritiesDAO.deleteAuthorityByUserId(theId);
 		
 	}
 	

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.community.web.entity.Acomment;
 import com.community.web.entity.Answer;
+import com.community.web.entity.Authorities;
 import com.community.web.entity.Qcomment;
 import com.community.web.entity.Question;
 import com.community.web.entity.Ucomment;
@@ -111,5 +112,11 @@ public interface CommunityService {
 	public void deleteUserCommentById(int commentId);
 
 	public void setQuestionUnAnswered(int id);
+	
+	public Authorities getAuthoritiesByEmail(String email);
+	
+	public void saveAuthority(Authorities authorities);
+
+	public void deleteAuthority(int theId);
 
 }

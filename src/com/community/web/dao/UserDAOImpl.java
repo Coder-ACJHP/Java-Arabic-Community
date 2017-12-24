@@ -14,7 +14,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.community.web.entity.Authorities;
 import com.community.web.entity.Users;
 
 @Repository
@@ -59,12 +58,8 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void save(Users users) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		final Authorities authorities = new Authorities(users.getEMAIL(), "ROLE_USER");
-		users.setAuthorities(authorities);
 		currentSession.saveOrUpdate(users);
-		
-		System.out.println("user saved successfully");
-		
+				
 	}
 
 	@Override
@@ -98,9 +93,6 @@ public class UserDAOImpl implements UserDAO {
 	public void deleteUser(int id) {
 		Session currentSession = sessionFactory.getCurrentSession();		
 		final Users theUsers = currentSession.get(Users.class, id);
-		Query<?> query = currentSession.createQuery("from Authorities where EMAIL= :email");
-		query.setParameter("email", theUsers.getEMAIL());
-		currentSession.delete(query.getSingleResult());
 		currentSession.delete(theUsers);
 		
 	}

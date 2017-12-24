@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.community.web.entity.Answer;
+import com.community.web.entity.Authorities;
 import com.community.web.entity.Question;
 import com.community.web.entity.Ucomment;
 import com.community.web.entity.Users;
@@ -110,7 +111,9 @@ public class UserController {
 				
 				users.setENABLED(true);
                 users.setREGISTERDATE(LocalDateTime.now().toString());
-				communityService.saveUser(users);      
+				communityService.saveUser(users);
+				communityService.saveAuthority(new Authorities(users.getEMAIL(), "ROLE_USER"));
+				
 				redirectAttrs.addFlashAttribute("success", "Your registration has been completed successfully");
 				redirectAttrs.addFlashAttribute("email", users.getEMAIL());
 				sendTo = "redirect:SignIn";
@@ -227,6 +230,7 @@ public class UserController {
 				communityService.changeAnswerAsGuess(a.getID());
 			}
 		}
+		communityService.deleteAuthority(theId);
 		communityService.deleteUser(theId);
 		redirectAttributes.addFlashAttribute("message", "Your account is deleted so after this you are anonymous!");
 		return "redirect:j_spring_security_logout";

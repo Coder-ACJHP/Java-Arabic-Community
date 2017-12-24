@@ -17,6 +17,7 @@
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/controller/QuestionController.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/service/CommunityServiceImpl.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/dao/QcommentDAOImpl.java
+/Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/dao/AuthoritiesDAO.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/dao/QuestionDAO.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/entity/Ucomment.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/controller/UserController.java
@@ -24,6 +25,7 @@
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/util/PasswordResetMessage.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/dao/UcommentDAOImpl.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/entity/Authorities.java
+/Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/dao/AuthoritiesDAOImpl.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/dao/AcommentDAOImpl.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/entity/Users.java
 /Users/MacbookPro/Documents/workspace/Java-Arabic-Community/src/com/community/web/test/ConnectionTestInServlet.java
