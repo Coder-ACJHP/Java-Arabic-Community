@@ -45,13 +45,17 @@ public class QuestionController {
 		final Qcomment qcomment = new Qcomment();
 		final Acomment acomment = new Acomment();
 		final Answer answer = new Answer();
-		
+		String qBase64Encoded = null;
 		
 		final Question theQuestion = communityService.getQuestionById(theId);
 		final List<Qcomment> theCommentList = communityService.getCommentList(theQuestion.getID());
 		final Users qUser = communityService.getUserById(theQuestion.getUSERID());
-		byte[] qEncodeBase64 = Base64.encodeBase64(qUser.getPICTURE());
-		String qBase64Encoded = new String(qEncodeBase64);
+		
+		if(qUser != null) {
+			byte[] qEncodeBase64 = Base64.encodeBase64(qUser.getPICTURE());
+			qBase64Encoded = new String(qEncodeBase64);
+		}
+		
 		boolean status = theQuestion.isISANSWERED();
 		
 		if (status == true) {
@@ -154,7 +158,7 @@ public class QuestionController {
 			
 		} else {
 			
-			model.addAttribute("question_error", "Comment can not be blank!");
+			model.addAttribute("error", "Comment can not be blank!");
 			Qcomment theComment = new Qcomment();
 			model.addAttribute("qcomment", theComment);
 			sendTo = "redirect:Question?questionId=" + Id;

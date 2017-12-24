@@ -62,6 +62,9 @@ public class UserDAOImpl implements UserDAO {
 		final Authorities authorities = new Authorities(users.getEMAIL(), "ROLE_USER");
 		users.setAuthorities(authorities);
 		currentSession.saveOrUpdate(users);
+		
+		System.out.println("user saved successfully");
+		
 	}
 
 	@Override
@@ -97,8 +100,8 @@ public class UserDAOImpl implements UserDAO {
 		final Users theUsers = currentSession.get(Users.class, id);
 		Query<?> query = currentSession.createQuery("from Authorities where EMAIL= :email");
 		query.setParameter("email", theUsers.getEMAIL());
-		currentSession.delete(theUsers);
 		currentSession.delete(query.getSingleResult());
+		currentSession.delete(theUsers);
 		
 	}
 

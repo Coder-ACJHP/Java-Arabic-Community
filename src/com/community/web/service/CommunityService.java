@@ -110,4 +110,6 @@ public interface CommunityService {
 	
 	public void deleteUserCommentById(int commentId);
 
+	public void setQuestionUnAnswered(int id);
+
 }

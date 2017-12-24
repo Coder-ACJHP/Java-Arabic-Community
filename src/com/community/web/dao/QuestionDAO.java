@@ -29,4 +29,6 @@ public interface QuestionDAO {
 	public void changeQuestionAsGuess(int id);
 
 	public List<Question> getTopQuestions();
+
+	public void setQuestionUnAnswered(int id);
 }

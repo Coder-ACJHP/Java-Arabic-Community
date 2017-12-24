@@ -329,7 +329,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12" style="text-align: center;">
-									<button type="button" id="delete-btn" class="btn btn-danger btn-block">
+									<button type="button" onclick="deleteAccount();" id="delete-btn" class="btn btn-danger btn-block">
 										<span class="glyphicon glyphicon-trash"></span> Delete account
 									</button>
 								</div>
@@ -348,5 +348,28 @@
 	</div> 
 	
 	<jsp:include page="footer.jsp" />
+	
+	<script type="text/javascript">
+		function deleteAccount() {
+			swal({
+				  title: "Are you sure?",
+				  text: "Are you sure you want to delete this account?",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "Yes, delete it!",
+				  cancelButtonText: "No, cancel plx!",
+				  closeOnConfirm: false,
+				  closeOnCancel: false
+				},
+				function(isConfirm){
+				  if (isConfirm) {
+					  window.location.href='${DeleteAccount}'; return false;
+				  } else {
+				    swal("Cancelled", "Your imaginary account is safe :)", "error");
+				  }
+				});
+		}
+	</script>
 </body>
 </html>

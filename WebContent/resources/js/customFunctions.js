@@ -21,82 +21,17 @@ window.onload = function() {
 			
 		});
 	}
-	
-	if(deleteBtn) {
-		deleteBtn.addEventListener("click", function() {
-			swal({
-				  title: "Are you sure?",
-				  text: "Are you sure you want to delete this account?",
-				  type: "warning",
-				  showCancelButton: true,
-				  confirmButtonColor: "#DD6B55",
-				  confirmButtonText: "Yes, delete it!",
-				  cancelButtonText: "No, cancel plx!",
-				  closeOnConfirm: false,
-				  closeOnCancel: false
-				},
-				function(isConfirm){
-				  if (isConfirm) {
-					  window.location.href='${DeleteAccount}'; return false;
-				  } else {
-				    swal("Cancelled", "Your imaginary account is safe :)", "error");
-				  }
-				});
-		});
-	}
 
 	
 	if(deleteQstn) {
 		deleteQstn.addEventListener("mouseover", function() {
 			deleteQstn.style.cursor = 'pointer';
 		});
-		deleteQstn.addEventListener("click", function() {
-			swal({
-				title : "Are you sure?",
-				text : "Are you sure you want to delete this question?",
-				type : "warning",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "Yes, delete it!",
-				cancelButtonText : "No, cancel plx!",
-				closeOnConfirm : false,
-				closeOnCancel : false
-			},
-			function(isConfirm) {
-				if (isConfirm) {
-					window.location.href = '${deleteQuestion}';
-					return false;
-				} else {
-					swal("Cancelled", "Your imaginary question is safe :)","error");
-				}
-			});
-		});
 	}
 	
 	if(deleteAnswr) {
 		deleteAnswr.addEventListener("mouseover", function() {
 			deleteAnswr.style.cursor = 'pointer';
-		});
-		deleteAnswr.addEventListener("click", function() {
-			swal({
-				title : "Are you sure?",
-				text : "Are you sure you want to delete this answer?",
-				type : "warning",
-				showCancelButton : true,
-				confirmButtonColor : "#DD6B55",
-				confirmButtonText : "Yes, delete it!",
-				cancelButtonText : "No, cancel plx!",
-				closeOnConfirm : false,
-				closeOnCancel : false
-			},
-			function(isConfirm) {
-				if (isConfirm) {
-					window.location.href = '${DeleteAnswer}';
-					return false;
-				} else {
-					swal("Cancelled", "Your imaginary answer is safe :)","error");
-				}
-			});
 		});
 	}
 	

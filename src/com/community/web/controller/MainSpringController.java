@@ -1,6 +1,5 @@
 package com.community.web.controller;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +25,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -59,12 +60,18 @@ public class MainSpringController {
 		
 		final List<Question> questionsList = communityService.getQuestionsListByLimit(offset, maxresults);
 		final Map<Users, String> userInfoMap = new HashMap<>();
-		for (Question q : questionsList) {
-			maxQC++;
-			Users users = communityService.getUserById(q.getUSERID());
-			byte[] encodeBase64 = Base64.encodeBase64(users.getPICTURE());
-			String base64Encoded = new String(encodeBase64);
-			userInfoMap.put(users, base64Encoded);
+		
+		if(questionsList != null) {
+			for (Question q : questionsList) {
+				maxQC++;
+				Users users = communityService.getUserById(q.getUSERID());
+				
+				if(users != null) {
+					byte[] encodeBase64 = Base64.encodeBase64(users.getPICTURE());
+					String base64Encoded = new String(encodeBase64);
+					userInfoMap.put(users, base64Encoded);
+				}
+			}
 		}
 		
 		final List<Answer> answerList = communityService.getAnswersList();
@@ -86,9 +93,12 @@ public class MainSpringController {
 		for (Question q : questionsList) {
 			maxQC++;
 			Users users = communityService.getUserById(q.getUSERID());
-			byte[] encodeBase64 = Base64.encodeBase64(users.getPICTURE());
-			String base64Encoded = new String(encodeBase64);
-			userInfoMap.put(users, base64Encoded);
+			
+			if(users != null) {
+				byte[] encodeBase64 = Base64.encodeBase64(users.getPICTURE());
+				String base64Encoded = new String(encodeBase64);
+				userInfoMap.put(users, base64Encoded);
+			}
 		}
 		
 		final List<Answer> answerList = communityService.getAnswersList();
@@ -135,7 +145,7 @@ public class MainSpringController {
 			return "redirect:AllQuestions";
 	}
 
-	@PostMapping("/j_spring_security_logout")
+	@RequestMapping(value="/j_spring_security_logout", method = { RequestMethod.GET, RequestMethod.POST })
 	public String Logout(HttpServletResponse response, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		
 		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -148,21 +158,6 @@ public class MainSpringController {
 		return "redirect:AllQuestions";
 	}
 
-	@GetMapping("DeleteAccount")
-	public String deleteAccout(@RequestParam("ID") int theId, Model model) throws IOException {
-		
-		final List<Question> ql = communityService.getQuestionListByUserId(theId);
-		for(Question q:ql) {
-			communityService.changeQuestionAsGuess(q.getID());
-			List<Answer> al = communityService.getAnswersList(q.getID());
-			for(Answer a: al) {
-				communityService.changeAnswerAsGuess(a.getID());
-			}
-		}
-		communityService.deleteUser(theId);
-		model.addAttribute("message", "Your account is deleted so after this you are anonymous!");
-		return "redirect:Loguot";
-	}
 
 	@GetMapping("/ForgotPassword")
 	public String forgotPassword(Model model) {

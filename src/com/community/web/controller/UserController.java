@@ -1,6 +1,7 @@
 package com.community.web.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.community.web.entity.Answer;
 import com.community.web.entity.Question;
 import com.community.web.entity.Ucomment;
 import com.community.web.entity.Users;
@@ -84,7 +86,7 @@ public class UserController {
 	public String registerUser(@ModelAttribute("user") Users users, @RequestParam("fileUpload") MultipartFile fileUpload,
 			@RequestParam("g-recaptcha-response") String gRecaptchaResponse, HttpServletRequest request,
 			final RedirectAttributes redirectAttrs) throws Exception {
-		
+				
 		String sendTo = "";
 		final String ErrorMessage = "There is an account with that email adress: ";
 		
@@ -96,7 +98,7 @@ public class UserController {
 		}else {
 			
 			boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
-			
+
 			if(verify) {
 				if (fileUpload.isEmpty()) {
 					
@@ -106,6 +108,7 @@ public class UserController {
 					
 				} else {users.setPICTURE(fileUpload.getBytes());}
 				
+				users.setENABLED(true);
                 users.setREGISTERDATE(LocalDateTime.now().toString());
 				communityService.saveUser(users);      
 				redirectAttrs.addFlashAttribute("success", "Your registration has been completed successfully");
@@ -212,4 +215,20 @@ public class UserController {
 		return "users-list";
 	}
 
+	@GetMapping("DeleteAccount")
+	public String deleteAccout(@RequestParam("ID") int theId, Model model, 
+							RedirectAttributes redirectAttributes) throws IOException {
+		
+		final List<Question> ql = communityService.getQuestionListByUserId(theId);
+		for(Question q:ql) {
+			communityService.changeQuestionAsGuess(q.getID());
+			List<Answer> al = communityService.getAnswersList(q.getID());
+			for(Answer a: al) {
+				communityService.changeAnswerAsGuess(a.getID());
+			}
+		}
+		communityService.deleteUser(theId);
+		redirectAttributes.addFlashAttribute("message", "Your account is deleted so after this you are anonymous!");
+		return "redirect:j_spring_security_logout";
+	}
 }

@@ -104,10 +104,6 @@
 			</div>
 			
 			<div class="col-lg-7">
-				<!-- HIDDEN PARAMS -->
-				<%String previousUrl = request.getHeader("Referer"); 
-						pageContext.setAttribute("previousUrl", previousUrl);%>
-				<input type="hidden" name="from" value="${previousUrl}">
 				<!-- ---------------------------------------------------------- -->
 					<div class="row">
 						<div class="col-md-2">
@@ -181,8 +177,7 @@
 					</div><br/>
 					<div class="row">
 						<div class="col-md-2">
-							<label class="control-label" for="lng"><spring:message
-									code="label.fav_language" />:</label>
+							<label class="control-label" for="lng"><spring:message code="label.fav_language" />:</label>
 						</div>
 						<div class="col-md-6">
 							<form:input path="FAV_PROG_LANG" type="text" class="form-control"

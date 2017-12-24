@@ -158,4 +158,13 @@ public class QuestionDAOImpl implements QuestionDAO {
 		return topQuestionsList;
 	}
 
+	@Override
+	public void setQuestionUnAnswered(int id) {
+		Session currentSession = sessionFactory.getCurrentSession();
+		Query<?> query = currentSession.createQuery("update Question set ISANSWERED=0 where ID= :theId");
+		query.setParameter("theId", id);
+		query.executeUpdate();
+		
+	}
+
 }

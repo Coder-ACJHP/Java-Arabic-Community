@@ -1,6 +1,7 @@
 package com.community.web.controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,6 @@ import com.community.web.entity.Answer;
 import com.community.web.entity.Question;
 import com.community.web.service.CommunityService;
 import com.community.web.util.VerifyRecaptcha;
-import java.time.LocalDateTime;
 
 @Controller
 public class AnswerController {
@@ -81,9 +81,9 @@ public class AnswerController {
 		}
 		//Return the status...
 		if(loggedInUserId != question.getUSERID()) {
-			redirectAttributes.addFlashAttribute("errorOne", "error!");
+			redirectAttributes.addFlashAttribute("error", "error!");
 		}else if(loggedInUserId == question.getUSERID() && count == 1){
-			redirectAttributes.addFlashAttribute("errorTwo", "error!");
+			redirectAttributes.addFlashAttribute("error", "error!");
 		}else {
 			communityService.acceptAnswer(Id);
 			communityService.upVoteUser(answerOwnerId, 15);
@@ -159,7 +159,7 @@ public class AnswerController {
 			communityService.saveAnswer(answer);
 			return "redirect:" + request.getParameter("from");
 		}
-		redirectAttributes.addFlashAttribute("error_message",
+		redirectAttributes.addFlashAttribute("error",
 				"You missed the Captcha!, It must be used or It returned false!");
 		return "redirect:EditAnswer";
 	}
@@ -170,10 +170,10 @@ public class AnswerController {
 		Answer answer = communityService.getAnswerById(theId);
 
 		communityService.deleteAnswerById(theId);
+		communityService.setQuestionUnAnswered(Id);
 		communityService.deleteAcommentByAnswerId(theId);
 		communityService.downVoteUser(answer.getUSERID(), 15);
-		redirectAtt.addFlashAttribute("question_error",
-				"Your answer deleted successfully but you losted 15 reputations.");
+		redirectAtt.addFlashAttribute("message", "Your answer deleted successfully but you losted 15 reputations.");
 		return "redirect:Question?questionId=" + Id;
 	}
 
@@ -188,7 +188,7 @@ public class AnswerController {
 			model.addAttribute("acomment", theAcomment);
 			return "redirect:Question?questionId=" + Id;
 		} else {
-			model.addAttribute("answer_error", "Comment can not be blank!");
+			model.addAttribute("error", "Comment can not be blank!");
 			Acomment theAcomment = new Acomment();
 			model.addAttribute("acomment", theAcomment);
 			return "redirect:Question?questionId=" + Id;

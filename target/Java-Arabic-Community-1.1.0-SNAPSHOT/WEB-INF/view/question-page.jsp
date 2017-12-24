@@ -31,14 +31,14 @@
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <body>
- <c:if test="${not empty question_error}">
+ <c:if test="${not empty message}">
     <script type="text/javascript">
         swal("${message}");
     </script>
 </c:if>  
 <c:if test="${not empty error}">
 		<script type="text/javascript">
-			sweetAlert("${headerError}", "${error}", "error");
+			sweetAlert("Opsss...", "${error}", "error");
 		</script>
 </c:if>
 
@@ -150,7 +150,7 @@
            	   <div class="col-md-10">
                     <div class="question-td">
                         <c:if test="${question.USERID==sessionScope[myUserId]}">
-                            <a class="editlink" id="delete-qstn" >Delete</a>
+                            <a class="editlink" onclick="deleteQuestion();" id="delete-qstn">Delete</a>
                         </c:if>
                     </div>
            		</div>
@@ -319,7 +319,7 @@
 				<div class="question-td">
 					<div class="col-md-10">
 						<c:if test="${tempAnswerList.USERID==sessionScope[myUserId]}">
-							<a class="editlink" id="delete-answr">Delete</a>
+							<a class="editlink" onclick="deleteAnswer();" id="delete-answr">Delete</a>
 						</c:if>
 					</div>		
 				</div>
@@ -444,7 +444,52 @@
      <!-- JUST FOR SOME WHITE SPACE -->
      <div class="row"><div class="col-lg-12">&nbsp;&nbsp;&nbsp;</div></div>
 </div><!-- CONTAINER -->                
-
-</body>
 <jsp:include page="footer.jsp" />
+<script type="text/javascript">
+
+	function deleteQuestion() {
+		swal({
+			title : "Are you sure?",
+			text : "Are you sure you want to delete this question?",
+			type : "warning",
+			showCancelButton : true,
+			confirmButtonColor : "#DD6B55",
+			confirmButtonText : "Yes, delete it!",
+			cancelButtonText : "No, cancel plx!",
+			closeOnConfirm : false,
+			closeOnCancel : false
+		},
+		function(isConfirm) {
+			if (isConfirm) {
+				window.location.href = '${deleteQuestion}';
+				return false;
+			} else {
+				swal("Cancelled", "Your imaginary question is safe :)","error");
+			}
+		});
+	}
+
+	function deleteAnswer() {
+		swal({
+			title : "Are you sure?",
+			text : "Are you sure you want to delete this answer?",
+			type : "warning",
+			showCancelButton : true,
+			confirmButtonColor : "#DD6B55",
+			confirmButtonText : "Yes, delete it!",
+			cancelButtonText : "No, cancel plx!",
+			closeOnConfirm : false,
+			closeOnCancel : false
+		},
+		function(isConfirm) {
+			if (isConfirm) {
+				window.location.href = '${DeleteAnswer}';
+				return false;
+			} else {
+				swal("Cancelled", "Your imaginary answer is safe :)","error");
+			}
+		});
+	}
+</script>
+</body>
 </html>

@@ -378,5 +378,12 @@ public class CommunityServiceImpl implements CommunityService {
 	public void deleteUserCommentById(int commentId) {
 		ucommentDAO.deleteUserCommentById(commentId);
 	}
+
+	@Override
+	@Transactional
+	public void setQuestionUnAnswered(int id) {
+		questionDAO.setQuestionUnAnswered(id);
+		
+	}
 	
 }
