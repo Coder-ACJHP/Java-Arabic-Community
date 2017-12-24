@@ -12,8 +12,7 @@ The application is ready to deploy and all dependencies injected (database, serv
 2-) In terminal or command line go into project root folder and copy this line to run :
 <code>java -jar target/dependency/webapp-runner.jar target/*.war<code>
 </pre><br>
-<div align="center"><b>OR</b></div>
-<p>Work with live site <a href="http://java-arabic-community.herokuapp.com/AllQuestions">http://java-arabic-community.herokuapp.com/</a><p><br>
+<h3>Work with live site: </h3> <a href="https://java-arabic-community.herokuapp.com/AllQuestions">https://java-arabic-community.herokuapp.com/</a><br>
 <del><i>*Remember you have to edit connection properties file before running the application!</i></del>
 
 <h2>Goals :</h2> 
