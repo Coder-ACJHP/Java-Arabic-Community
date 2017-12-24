@@ -16,16 +16,23 @@ body{
     }
 }
 
+.navbar-nav {
+    width: calc(100% / 3);   
+    text-align: center;
+    > li {
+      float: none;
+      display: inline-block;
+    }
+}
+
 #navHeader {
 
-	margin-left: 20px;
-	margin-right: 35px;
-	display: flex;
+    display: flex;
 }
 
 #navHeader:active {
 
-	transform: translateX(1px);
+    transform: translateX(1px);
 }
 
 .nav-logo {
@@ -34,9 +41,9 @@ body{
 }
 
 #nav-header-p {
-	font-size: 1.2em; 
+	font-size: 1.0em; 
 	color:white;	
-	margin-bottom: 0px;
+	margin-top: 8px;
 	cursor: pointer;
 }
 
@@ -60,7 +67,6 @@ body{
 	
 	float:left; 
 	margin-top: 8px;
-	margin-left: calc(100% / 3);
 	max-width: 600px;
 }
 

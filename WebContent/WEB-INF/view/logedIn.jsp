@@ -27,12 +27,13 @@
 
 <nav class="navbar navbar-inverse" >
     <div class="container-fluid">
-        <div class="navbar-header" id="navHeader" title="Go to Home page">
-      		<a href="https://java-arabic-community.herokuapp.com/AllQuestions">
-            	<img class="nav-logo" alt="Logo not found!" src="${pageContext.request.contextPath}/resources/images/miniLogo.png">
+        
+        <ul class="nav navbar-nav navbar-header" id="navHeader" title="Go to Home page">
+            <a href="https://java-arabic-community.herokuapp.com/AllQuestions">
+               <img class="nav-logo" alt="Logo not found!" src="${pageContext.request.contextPath}/resources/images/miniLogo.png">
             </a>
-            <p id="nav-header-p">Java Arabic Commumity<br>Q &amp; A website</p>
-    </div>
+            <span id="nav-header-p">Java Arabic Commumity<br>Q &amp; A website</span>
+        </ul>
         <ul class="nav navbar-nav navbar-center">
             <li class="nav-center-li">
                 <form:form action="Search" method="POST">
@@ -52,7 +53,13 @@
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li title="Go to profile">
+            <li style="float:right;">
+            	<form action="j_spring_security_logout" id="logout-form" method="POST">
+            		<button type="submit" class="logout-btn"><span class="glyphicon glyphicon-log-out"></span> Logout</button>
+            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            	</form>
+            </li>
+            <li title="Go to profile" style="float:right;">
                 <div class="nav-img-div">
                     <img class="nav-prof-img" alt="Profile picture" src="data:image/jpeg;base64,${sessionScope[myPicture]}"> 
                 </div>
@@ -61,12 +68,6 @@
                     <span>${sessionScope[myRegDate] }</span><br> 
                     <span>&#9813; ${sessionScope[myVote] }</span>
                 </div>	
-            </li>
-            <li>
-            	<form action="j_spring_security_logout" id="logout-form" method="POST">
-            		<button type="submit" class="logout-btn"><span class="glyphicon glyphicon-log-out"></span> Logout</button>
-            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-            	</form>
             </li>
         </ul>
     </div>
