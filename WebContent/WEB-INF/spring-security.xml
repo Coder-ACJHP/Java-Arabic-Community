@@ -8,6 +8,7 @@
 	
         <http security="none" pattern="/Search" />        
 	<http security="none" pattern="/RegisterUser"/>
+        <http security="none" pattern="/UpdatePassword"/>
         <http security="none" pattern="/Suggestion"/>
 	<http security="none" pattern="/resources/**"/>
 	
@@ -36,7 +37,10 @@
 				users-by-username-query="select EMAIL,PASSWORD,ENABLED FROM Users WHERE EMAIL=?"
                                 authorities-by-username-query="select EMAIL, AUTHORITY 
                                  from Authorities WHERE EMAIL=?" />
+                        <password-encoder ref="encoder" />
 		</authentication-provider>
 	</authentication-manager>
-	
+        <b:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+            <b:constructor-arg name="strength" value="11" />
+        </b:bean>
 </b:beans>

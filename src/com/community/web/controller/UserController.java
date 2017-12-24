@@ -31,6 +31,7 @@ import com.community.web.entity.Ucomment;
 import com.community.web.entity.Users;
 import com.community.web.service.CommunityService;
 import com.community.web.util.VerifyRecaptcha;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Controller
 public class UserController {
@@ -44,6 +45,9 @@ public class UserController {
 	@Value("#{countriesOption}")
 	private Map<String, String> countryOptions;
 
+        @Autowired
+        private BCryptPasswordEncoder passwordEncoder;
+        
 	@GetMapping("/Users")
 	public String showUserCV(@RequestParam("answerUserId") int theId, Model model) {
 		
@@ -109,7 +113,8 @@ public class UserController {
 				} else {users.setPICTURE(fileUpload.getBytes());}
 				
 				users.setENABLED(true);
-                users.setREGISTERDATE(LocalDateTime.now().toString());
+                                users.setREGISTERDATE(LocalDateTime.now().toString());
+                                users.setPASSWORD(passwordEncoder.encode(users.getPASSWORD()));
 				communityService.saveUser(users);
 				communityService.saveAuthority(new Authorities(users.getEMAIL(), "ROLE_USER"));
 				
@@ -157,26 +162,24 @@ public class UserController {
 			@RequestParam("confirmPsw") String confirmPsw, @RequestParam("UUID") String UUIDkey, RedirectAttributes redirectAtt) {
 		
 		String sendTo = "";
-		
-		if (theUser != null) {
-			Users usr = communityService.getUserById(theUser.getID());
-			
-			if (UUIDkey.equals(usr.getUUID())) {
-				if (newPsw.equals(confirmPsw)) {
-
-					communityService.updateUserPassword(usr.getID(), newPsw);
-					redirectAtt.addFlashAttribute("message", "Your password changed successfully.");
-					sendTo = "redirect:AllQuestions";
-				}else {
-					redirectAtt.addFlashAttribute("error", "Passwords are doesn't match!");
-					sendTo = "redirect:Resetpassword?userId="+theUser.getID();
-				}
-			}else {
-				redirectAtt.addFlashAttribute("error", "Invalid or expired unique key");
-				sendTo = "redirect:Resetpassword?userId="+theUser.getID();
-			}
-		}
-		return sendTo;
+		final Users usr = communityService.getUserById(theUser.getID());
+                
+                if(usr.getUUID().trim().length() > 0) {
+                    if (!UUIDkey.equals(usr.getUUID())) {
+			redirectAtt.addFlashAttribute("error", "Invalid or expired unique key");
+			sendTo = "redirect:Resetpassword?userId="+theUser.getID();
+                    }
+                }
+                
+                if (newPsw.equals(confirmPsw)) {
+                    communityService.updateUserPassword(usr.getID(), passwordEncoder.encode(newPsw));
+                    redirectAtt.addFlashAttribute("message", "Your password changed successfully.");
+                    sendTo = "redirect:AllQuestions";
+                }else {
+                    redirectAtt.addFlashAttribute("error", "Passwords are doesn't match!");
+                    sendTo = "redirect:Resetpassword?userId="+theUser.getID();
+                }
+            return sendTo;
 	}
 
 	@GetMapping("/Resetpassword")

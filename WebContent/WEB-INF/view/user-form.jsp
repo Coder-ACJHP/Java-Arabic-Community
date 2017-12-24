@@ -262,6 +262,7 @@
 						<hr>
 						<form:form action="UpdatePassword" modelAttribute="user" method="POST">
 							<form:hidden path="ID" />
+                                                        <form:hidden path="UUID" />
 							<div class="row">
 								<div class="col-md-4">
 									<label>Old password:</label>

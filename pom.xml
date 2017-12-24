@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Java-Arabic-Community</groupId>
 	<artifactId>Java-Arabic-Community</artifactId>
-	<version>1.1.0-BETA</version>
+	<version>1.2.0-BETA</version>
 	<packaging>war</packaging>
 	<properties>
             <spring.security.version>4.2.3.RELEASE</spring.security.version>
@@ -92,11 +92,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>4.3.4.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>4.3.4.RELEASE</version>
 		</dependency>
@@ -114,6 +109,11 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>4.3.4.RELEASE</version>
+		</dependency>
+                <dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>4.3.8.RELEASE</version>
 		</dependency>
                 <dependency>
 			<groupId>org.springframework.security</groupId>
@@ -141,6 +141,11 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.4.1.Final</version>
 		</dependency>
+                <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>5.2.7.Final</version>
+		</dependency>
 		<dependency>
 			<groupId>org.jboss.spec.javax.interceptor</groupId>
 			<artifactId>jboss-interceptors-api_1.1_spec</artifactId>
@@ -152,11 +157,6 @@
 			<version>0.0.7</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>4.3.8.RELEASE</version>
-		</dependency>
-		<dependency>
 		  <groupId>org.glassfish</groupId>
 		  <artifactId>javax.json</artifactId>
 		  <version>1.0.4</version>
@@ -165,11 +165,6 @@
 			<groupId>javax.el</groupId>
 			<artifactId>javax.el-api</artifactId>
 			<version>3.0.1-b04</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-c3p0</artifactId>
-			<version>5.2.7.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -195,11 +190,6 @@
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>3.20.0-GA</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>

@@ -4,6 +4,7 @@ com\community\web\entity\Acomment.class
 com\community\web\service\CommunityService.class
 com\community\web\entity\Question.class
 com\community\web\dao\QuestionDAOImpl.class
+com\community\web\util\BCryptEncoderTest.class
 com\community\web\dao\UcommentDAOImpl.class
 com\community\web\util\PasswordResetMessage.class
 com\community\web\controller\AnswerController.class
