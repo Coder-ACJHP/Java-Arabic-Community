@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,6 @@ import com.community.web.entity.Ucomment;
 import com.community.web.entity.Users;
 import com.community.web.service.CommunityService;
 import com.community.web.util.VerifyRecaptcha;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Controller
 public class UserController {
@@ -64,6 +64,7 @@ public class UserController {
 	@GetMapping("/UserCV")
 	public String userCv(@RequestParam("privateId") int theId, Model model) {
 		final Users users = communityService.getUserById(theId);
+		
 		final List<Question> questionList = communityService.getQuestionListByUserId(theId);
 
 		byte[] encodeBase64 = Base64.encodeBase64(users.getPICTURE());
@@ -92,18 +93,16 @@ public class UserController {
 			final RedirectAttributes redirectAttrs) throws Exception {
 				
 		String sendTo = "";
-		final String ErrorMessage = "There is an account with that email adress: ";
 		
 		if(communityService.getUserByEmail(users.getEMAIL()) != null) {
-			
-			redirectAttrs.addFlashAttribute("error", ErrorMessage + users.getEMAIL());
+			redirectAttrs.addFlashAttribute("error", "There is an account with that email adress.");
 			sendTo = "redirect:SignUp";
-			
 		}else {
 			
-			boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
-
-			if(verify) {
+			//Check if user forgot the chaptcha
+			if(VerifyRecaptcha.verify(gRecaptchaResponse)) {
+				
+				//if user doesn't upload profile picture
 				if (fileUpload.isEmpty()) {
 					
 					File theFile = new File(servletContext.getRealPath("/resources/images/nouser.jpg"));
@@ -113,8 +112,8 @@ public class UserController {
 				} else {users.setPICTURE(fileUpload.getBytes());}
 				
 				users.setENABLED(true);
-                                users.setREGISTERDATE(LocalDateTime.now().toString());
-                                users.setPASSWORD(passwordEncoder.encode(users.getPASSWORD()));
+                users.setREGISTERDATE(LocalDateTime.now().toString());
+                users.setPASSWORD(passwordEncoder.encode(users.getPASSWORD()));
 				communityService.saveUser(users);
 				communityService.saveAuthority(new Authorities(users.getEMAIL(), "ROLE_USER"));
 				
@@ -123,7 +122,6 @@ public class UserController {
 				sendTo = "redirect:SignIn";
 				
 			}else {
-				
 				redirectAttrs.addFlashAttribute("error", "You missed the Captcha!, It must be used or maybe It returned false!");
 				sendTo = "redirect:SignUp";
 			}
@@ -137,9 +135,8 @@ public class UserController {
 			RedirectAttributes redirectAttrs) throws Exception {
 
 		
-		boolean verify = VerifyRecaptcha.verify(gRecaptchaResponse);
-
-		if (verify) {
+		if (VerifyRecaptcha.verify(gRecaptchaResponse)) {
+			
 			if (fileUpload.isEmpty()) {
 				final File theFile = new File(servletContext.getRealPath("/resources/images/nouser.jpg"));
 				byte[] array = Files.readAllBytes(theFile.toPath());
@@ -151,7 +148,6 @@ public class UserController {
 			redirectAttrs.addFlashAttribute("message", "Your profile updated successfully.");
 			return "redirect:" + request.getParameter("from");
 		}
-
 		redirectAttrs.addFlashAttribute("error", "You missed the Captcha!, It must be used!");
 		return "redirect:Users?answerUserId="+users.getID();
 
@@ -162,29 +158,34 @@ public class UserController {
 			@RequestParam("confirmPsw") String confirmPsw, @RequestParam("UUID") String UUIDkey, RedirectAttributes redirectAtt) {
 		
 		String sendTo = "";
-		final Users usr = communityService.getUserById(theUser.getID());
+		final Users resetUser = communityService.getUserById(theUser.getID());
                 
-                if(usr.getUUID().trim().length() > 0) {
-                    if (!UUIDkey.equals(usr.getUUID())) {
-			redirectAtt.addFlashAttribute("error", "Invalid or expired unique key");
-			sendTo = "redirect:Resetpassword?userId="+theUser.getID();
-                    }
-                }
-                
-                if (newPsw.equals(confirmPsw)) {
-                    communityService.updateUserPassword(usr.getID(), passwordEncoder.encode(newPsw));
-                    redirectAtt.addFlashAttribute("message", "Your password changed successfully.");
-                    sendTo = "redirect:AllQuestions";
-                }else {
-                    redirectAtt.addFlashAttribute("error", "Passwords are doesn't match!");
-                    sendTo = "redirect:Resetpassword?userId="+theUser.getID();
-                }
-            return sendTo;
+		if (resetUser.getUUID().trim().length() > 0) {
+			if (!UUIDkey.equals(resetUser.getUUID())) {
+				redirectAtt.addFlashAttribute("error", "Invalid or expired unique key");
+				sendTo = "redirect:Resetpassword?userId=" + theUser.getID();
+			}
+		}
+
+		//Check those two passwords are equals 
+		if (newPsw.equals(confirmPsw)) {
+			//Remove the token from database for blocking second use.
+			resetUser.setUUID("");
+			resetUser.setPASSWORD(passwordEncoder.encode(newPsw));
+			communityService.saveUser(resetUser);
+			
+			redirectAtt.addFlashAttribute("message", "Your password changed successfully.");
+			sendTo = "redirect:AllQuestions";
+		} else {
+			redirectAtt.addFlashAttribute("error", "Passwords are doesn't match!");
+			sendTo = "redirect:Resetpassword?userId=" + theUser.getID();
+		}
+		return sendTo;
 	}
 
 	@GetMapping("/Resetpassword")
 	public String resetPassword(Model model, @RequestParam("userId") int theId) {
-		Users usr = communityService.getUserById(theId);
+		final Users usr = communityService.getUserById(theId);
 		model.addAttribute("user", usr);
 		return "renew-password";
 	}

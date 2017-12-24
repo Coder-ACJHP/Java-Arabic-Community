@@ -78,18 +78,6 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void updateUserPassword(int theId, String newPsw) {
-		Session currentSession = sessionFactory.getCurrentSession();
-		@SuppressWarnings("rawtypes")
-		Query query = currentSession.createQuery("update Users set PASSWORD = :newPsw where ID= :theId");
-		
-		query.setParameter("newPsw", newPsw);
-		query.setParameter("theId", theId);
-		query.executeUpdate();
-		
-	}
-
-	@Override
 	public void deleteUser(int id) {
 		Session currentSession = sessionFactory.getCurrentSession();		
 		final Users theUsers = currentSession.get(Users.class, id);

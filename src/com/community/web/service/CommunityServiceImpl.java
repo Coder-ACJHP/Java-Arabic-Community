@@ -237,13 +237,6 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	@Transactional
-	public void updateUserPassword(int theId, String newPsw) {
-		userDAO.updateUserPassword(theId, newPsw);
-		
-	}
-
-	@Override
-	@Transactional
 	public void deleteUser(int id) {
 		userDAO.deleteUser(id);
 		

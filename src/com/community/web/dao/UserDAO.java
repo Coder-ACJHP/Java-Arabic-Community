@@ -17,8 +17,6 @@ public interface UserDAO {
 
 	public List<Users> searchUser(String searchName);
 
-	public void updateUserPassword(int theId, String newPsw);
-
 	public void deleteUser(int id);
 
 	public void changeUserAsGuest(int theId) throws IOException;

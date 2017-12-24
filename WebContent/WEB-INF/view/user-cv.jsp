@@ -34,7 +34,7 @@
    			<div class="row">
     			<div class="col-lg-10 col-lg-offset-2">
 				<div class="col-sm-2">
-					<p style="font-size: 18px; min-width: 150px;"><b>Member profile :</b></p>
+					<p style="font-size: 18px; min-width: 170px;"><b>Member profile :</b></p>
 				</div>
 				<div class="col-sm-2">
 	    			<spring:message code="label.askQuestion" var="LabelAskQues"/>
@@ -74,7 +74,7 @@
     	</div>
     	
 	<div class="row">
-		<div class="col-lg-7 col-lg-offset-3">
+		<div class="col-lg-8 col-lg-offset-2">
 			<div class="row">
 				<div class="col-md-12">
 					<h2>
@@ -184,7 +184,7 @@
 				<c:forEach var="tempQuestionsList" items="${questionList}">
 					<div class="col-lg-8 col-lg-offset-2" id="questionCardRow">
 						<div class="card-block">
-							<div class="col-md-1 center-block" style="margin-top: 20px;">
+							<div class="col-md-2 center-block" style="margin-top: 20px;">
 								<c:url var="Question" value="/Question">
 									<c:param name="questionId" value="${tempQuestionsList.ID}" />
 								</c:url>
@@ -223,7 +223,7 @@
 								</c:choose>
 							</div>
 							<!-- ---------------------------------------UP IS O.K.---------------------------------------------------- -->
-							<div class="col-md-11 center-block">
+							<div class="col-md-10 center-block">
 
 								<div class="row">
 									<div class="col-lg-12">

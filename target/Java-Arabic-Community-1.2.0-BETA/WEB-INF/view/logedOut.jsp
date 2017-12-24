@@ -16,12 +16,12 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
       
-        <ul class="nav navbar-nav navbar-header" id="navHeader" title="Go to Home page">
+        <div class="nav navbar-nav navbar-header" id="navHeader" title="Go to Home page">
       		<a href="https://java-arabic-community.herokuapp.com/AllQuestions">
             	<img class="nav-logo" alt="Logo not found!" src="${pageContext.request.contextPath}/resources/images/miniLogo.png"> 
             </a>
            	<p id="nav-header-p">Java Arabic Commumity<br>Q &amp; A website</p>
-        </ul>
+        </div>
         <ul class="nav navbar-nav navbar-center">
           <li class="nav-center-li">
               <form:form action="Search" method="POST">
