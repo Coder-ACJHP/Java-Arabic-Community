@@ -7,11 +7,12 @@
 </div>
 <h3>How to run : </h3>
 <pre>
-The application is ready to deploy and all dependencies injected (database, server etc.) just you need :
-1-) Clone or download the sources from this page.
-2-) In terminal or command line go into project root folder and copy this line to run :
-<code>java -jar target/dependency/webapp-runner.jar target/*.war<code>
-</pre><br>
+  The application is ready to deploy and all dependencies injected (database, server etc.) just you need :
+  1-) Clone or download the sources from this page.
+  2-) In terminal or command line go into project root folder and copy this line to run :
+  <code>java -jar target/dependency/webapp-runner.jar target/*.war<code>
+</pre>
+
 <h3>Work with live site: </h3> <a href="https://java-arabic-community.herokuapp.com/AllQuestions">https://java-arabic-community.herokuapp.com/</a><br>
 <del><i>*Remember you have to edit connection properties file before running the application!</i></del>
 
