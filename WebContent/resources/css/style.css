@@ -18,7 +18,6 @@ body{
 
 .navbar-nav {
     width: calc(100% / 3);   
-    text-align: center;
     > li {
       float: none;
       display: inline-block;
@@ -43,7 +42,6 @@ body{
 #nav-header-p {
 	font-size: 1.0em; 
 	color:white;	
-	margin-top: 8px;
 	cursor: pointer;
 }
 

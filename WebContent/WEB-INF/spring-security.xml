@@ -6,8 +6,9 @@
 		http://www.springframework.org/schema/security 
 		http://www.springframework.org/schema/security/spring-security.xsd">
 	
+        <http security="none" pattern="/Search" />        
 	<http security="none" pattern="/RegisterUser"/>
-        <http security="none" pattern="/Search" />
+        <http security="none" pattern="/Suggestion"/>
 	<http security="none" pattern="/resources/**"/>
 	
 	<http auto-config="true" use-expressions="true">
