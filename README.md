@@ -1,19 +1,20 @@
 <div align="center">
   <img src="https://github.com/Coder-ACJHP/Java-Arabic-Community/blob/master/WebContent/resources/images/Logo.png">
    <h3> 
-    Java-Arabic-Community Open source Question &amp; Answer site via <br/>Java EE (MVC)
+    Java-Arabic-Community Open source Question &amp; Answer site via <br/>Java EE application (BETA)
   </h3>
    <label style="font-style: oblique; color:#ffa500; float:left;"> This project is being carried out by Coder ACJHP.</label>
 </div>
 <h3>How to run : </h3>
 <pre>
+The application is ready to deploy and all dependencies injected (database, server etc.) just you need :
 1-) Clone or download the sources from this page.
 2-) In terminal or command line go into project root folder and copy this line to run :
 <code>java -jar target/dependency/webapp-runner.jar target/*.war<code>
 </pre><br>
 <div align="center"><b>OR</b></div>
 <p>Work with live site <a href="http://java-arabic-community.herokuapp.com/AllQuestions">http://java-arabic-community.herokuapp.com/</a><p><br>
-<b><i>*Remember you have to edit connection properties file before running the application!</i></b>
+<del><i>*Remember you have to edit connection properties file before running the application!</i></del>
 
 <h2>Goals :</h2> 
 Training, learning with Java technologies :)
