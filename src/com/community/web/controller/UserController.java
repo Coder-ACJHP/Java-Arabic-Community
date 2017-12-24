@@ -50,7 +50,6 @@ public class UserController {
 		final Users theUser = communityService.getUserById(theId);
 		byte[] encodeBase64 = Base64.encodeBase64(theUser.getPICTURE());
 		String base64Encoded = new String(encodeBase64);
-		theUser.setPASSWORD(""); //reset the password because is already encoded and force the user write it again
 		final Map<String, String> treeMap = new TreeMap<>(countryOptions);
 		model.addAttribute("countriesOption", treeMap);
 		model.addAttribute("userImage", base64Encoded);
@@ -148,7 +147,7 @@ public class UserController {
 			return "redirect:" + request.getParameter("from");
 		}
 
-		redirectAttrs.addFlashAttribute("message", "You missed the Captcha!, It must be used!");
+		redirectAttrs.addFlashAttribute("error", "You missed the Captcha!, It must be used!");
 		return "redirect:Users?answerUserId="+users.getID();
 
 	}
@@ -162,11 +161,11 @@ public class UserController {
 		if (theUser != null) {
 			Users usr = communityService.getUserById(theUser.getID());
 			
-			if (UUIDkey.equalsIgnoreCase(usr.getUUID())) {
+			if (UUIDkey.equals(usr.getUUID())) {
 				if (newPsw.equals(confirmPsw)) {
 
 					communityService.updateUserPassword(usr.getID(), newPsw);
-					redirectAtt.addFlashAttribute("success", "Your password changed successfully.");
+					redirectAtt.addFlashAttribute("message", "Your password changed successfully.");
 					sendTo = "redirect:AllQuestions";
 				}else {
 					redirectAtt.addFlashAttribute("error", "Passwords are doesn't match!");

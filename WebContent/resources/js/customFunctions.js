@@ -12,6 +12,7 @@ window.onload = function() {
 		deleteDiv.addEventListener("mouseover", function() {
 			deleteDiv.style.backgroundColor = "#f6d5da";
 			deleteDiv.style.borderRadius = '5px';
+                        deleteDiv.style.transition = '0.8s';
 		});
 	}
 	

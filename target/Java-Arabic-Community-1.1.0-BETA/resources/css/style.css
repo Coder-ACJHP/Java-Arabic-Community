@@ -744,14 +744,6 @@ input {
 	transition: 0.5s;
 }
 
-#psw {
-	
-    outline: none !important;
-    border:1px solid red;
-    box-shadow: 0 0 10px #719ECE;
-
-}
-
 #myFooter {
 	
 	bottom: 0;

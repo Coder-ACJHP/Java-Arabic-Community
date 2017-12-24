@@ -74,7 +74,7 @@
     	</div>
     	
 	<div class="row">
-		<div class="col-lg-8 col-lg-offset-2">
+		<div class="col-lg-7 col-lg-offset-3">
 			<div class="row">
 				<div class="col-md-12">
 					<h2>
@@ -87,7 +87,7 @@
 			<div class="row">
 				<div class="col-md-3">
 					<img class="cvImg" alt="No image" src="data:image/jpeg;base64,${profilePicture }">
-					<h6 align="center"><span class="badge" style="color: gold;">${users.VOTE}</span> <b><sub>REPUTATION</sub></b></h6>
+					<h5><span class="badge" style="color: gold;">${users.VOTE}</span> <b>REPUTATION</b></h5>
 				</div>
 				<div class="col-md-5">
 					<div class="col-lg-12">

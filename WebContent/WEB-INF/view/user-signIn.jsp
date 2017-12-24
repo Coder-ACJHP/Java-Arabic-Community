@@ -15,8 +15,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap-theme.min.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-    <!-- GRADIENT BACKGROUN DEPENDENCIES-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--show password js -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
 
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
@@ -52,7 +53,7 @@
                         	title="We'll never share your email with anyone else." placeholder="Enter email" required="required"/>
                     </div>
                     <div class="form-group">
-                        <form:input type="password" path="PASSWORD" class="form-control" placeholder="Password" required="required"/>
+                        <form:input type="password" path="PASSWORD" class="form-control" placeholder="Password" required="required" data-toggle="password"/>
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -87,5 +88,8 @@
 </div>
 <br>
 	<jsp:include page="footer.jsp" />
+        <script type="text/javascript">
+            $("#password").password('toggle');
+        </script>
 </body>
 </html>

@@ -25,8 +25,11 @@
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sweetalert.css">
 	
 	<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
-	
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
+        <!--show password js -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
+        
+        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/images/favicon.ico">
 </head>
 <body>
 <c:if test="${not empty message}">
@@ -80,12 +83,12 @@
 					<c:when test="${not empty userImage }">
 	                      <img class="bigImg" alt="No image" src="data:image/jpeg;base64,${userImage }">
 	                      <br>
-	                      <b style="white-space: nowrap;"><label>${user.NICKNAME }</label></b>
+	                      <b style="white-space: nowrap; font-size: 3rem;"><label>${user.NICKNAME }</label></b>
 					</c:when>	
 					<c:otherwise>
 	                       <img class="bigImg" alt="No image" src="${pageContext.request.contextPath}/resources/images/nouser.jpg">
 	                       <br>
-	                       <b style="white-space: nowrap;"><label>${user.NICKNAME }</label></b>
+	                       <b style="white-space: nowrap; font-size: 3rem;"><label>${user.NICKNAME }</label></b>
 					</c:otherwise>	
 				</c:choose>
 	        </div>
@@ -144,8 +147,8 @@
 						<div class="col-md-6">
 							<form:input path="PASSWORD" type="password" class="form-control"
 								id="psw" title="Include uppercase and lowercase letter!"
-								pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" 
-								required="required" placeholder="Must have at least 6 characters"/>
+								pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" style="z-index: 0;"
+								required="required" placeholder="Must have at least 6 characters" data-toggle="password"/>
 						</div>
 					</div><br/>
 					<div class="row">
@@ -263,33 +266,33 @@
 								<div class="col-md-4">
 									<label>Old password:</label>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-8">
 									<form:input path="PASSWORD" type="password" class="form-control" id="psw"
 									title="Include uppercase and lowercase letter!"
-									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" 
-									required="required" placeholder="Must have at least 6 characters" />
+									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" style="z-index: 0;"
+									required="required" placeholder="Must have at least 6 characters" data-toggle="password"/>
 								</div>
 							</div> <br>
 							<div class="row">
 								<div class="col-md-4">
 									<label>New <spring:message code="label.password" />:</label>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-8">
 									<input name="newPsw" type="password" class="form-control" 
 									title="Include uppercase and lowercase letter!"
-									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" 
-									required="required" placeholder="Must have at least 6 characters"/>
+									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" value="${PASSWORD}" style="z-index: 0;"
+									required="required" placeholder="Must have at least 6 characters" data-toggle="password"/>
 								</div>
 							</div> <br>
 							<div class="row">
 								<div class="col-md-4">
 									<label>Cnf. <spring:message code="label.password" />: </label>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-8">
 									<input name="confirmPsw" type="password" class="form-control"
 									title="Include uppercase and lowercase letter!"
-									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" 
-									required="required" placeholder="Must have at least 6 characters" />
+									pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" style="z-index: 0;"
+									required="required" placeholder="Must have at least 6 characters" data-toggle="password"/>
 								</div>
 							</div> <br>	
 							<div class="row">
@@ -348,8 +351,9 @@
 	</div> 
 	
 	<jsp:include page="footer.jsp" />
-	
 	<script type="text/javascript">
+            $("#password").password('toggle');
+
 		function deleteAccount() {
 			swal({
 				  title: "Are you sure?",
