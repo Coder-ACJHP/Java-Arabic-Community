@@ -274,7 +274,7 @@
     		<h4> Answer : <c:out value="${loop.index +1 }" /></h4>
 			<hr>
 			<div class="row">
-				<div class="col-lg-1">
+				<div class="col-lg-1" style="margin-top:30px;">
 					<input class="vote-img" type="image" src="${pageContext.request.contextPath}/resources/images/upVote.png"
 						id="vote" onclick="if ('${sessionScope[myUserId]}' <= 0) {window.location.href = 'SignIn'} else {window.location = '${upVoteAnswer}'}" />
 					<br> 

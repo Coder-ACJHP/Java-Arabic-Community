@@ -50,4 +50,11 @@ public class ErrorHandlerController {
 				+ "you might have done that may have caused the error.");
 		return "error-page";
 	}
+	
+	@GetMapping("/error")
+	public String error(Model model) {
+		model.addAttribute("headerError", "Error");
+		model.addAttribute("error", "Unknown error!.");
+		return "error-page";
+	}
 }

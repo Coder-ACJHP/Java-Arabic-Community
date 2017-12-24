@@ -62,7 +62,12 @@
                     <span>&#9813; ${sessionScope[myVote] }</span>
                 </div>	
             </li>
-            <li><a href="Loguot"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <li>
+            	<form action="j_spring_security_logout" id="logout-form" method="POST">
+            		<button type="submit" class="logout-btn"><span class="glyphicon glyphicon-log-out"></span> Logout</button>
+            		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            	</form>
+            </li>
         </ul>
     </div>
 </nav>

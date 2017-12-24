@@ -48,7 +48,7 @@ public class UserController {
 		byte[] encodeBase64 = Base64.encodeBase64(theUser.getPICTURE());
 		String base64Encoded = new String(encodeBase64);
 		theUser.setPASSWORD(""); //reset the password because is already encoded and force the user write it again
-		final Map<String, String> treeMap = new TreeMap<String, String>(countryOptions);
+		final Map<String, String> treeMap = new TreeMap<>(countryOptions);
 		model.addAttribute("countriesOption", treeMap);
 		model.addAttribute("userImage", base64Encoded);
 		model.addAttribute("user", theUser);

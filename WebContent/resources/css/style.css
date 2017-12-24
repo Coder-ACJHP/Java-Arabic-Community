@@ -774,3 +774,26 @@ input {
 #danger-zone:HOVER {
 	backgroun-color: #ffb5c2;
 }
+
+#remember-lbl {
+	width: 155px;
+}
+
+.checkbox-inp {
+	margin: 0px;
+	padding: 0px;
+	width: 20px;
+}
+
+.logout-btn {
+	background: none !important;
+	border: none;
+	font-size:14px;
+	padding-top: 10px;
+	padding-bottom: 15px;
+	color: #9c9d96;
+}
+
+.logout-btn:HOVER, .logout-btn:ACTIVE{
+	color: white;
+}

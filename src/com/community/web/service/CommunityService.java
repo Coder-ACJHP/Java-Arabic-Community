@@ -50,8 +50,6 @@ public interface CommunityService {
 
 	public void saveAcomment(Acomment acomment);
 
-	public boolean checkAuth(String email, String password);
-
 	public void setQuestionIsAnswered(int id);
 
 	public List<Answer> getAnswersList();

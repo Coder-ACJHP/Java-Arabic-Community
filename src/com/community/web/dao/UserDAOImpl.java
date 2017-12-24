@@ -11,10 +11,10 @@ import javax.servlet.ServletContext;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.jasypt.digest.PooledStringDigester;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.community.web.entity.Authorities;
 import com.community.web.entity.Users;
 
 @Repository
@@ -57,37 +57,10 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public boolean checkAuth(String email, String password) {
-		
-		boolean isMatch = false;
-		Session currentSession = sessionFactory.getCurrentSession();
-		Query<Users> query = currentSession.createQuery("from Users where EMAIL=:email", Users.class);
-		query.setParameter("email", email);
-		List<Users> userlist = query.getResultList();
-		
-		Users users = null;
-		
-		if(!userlist.isEmpty()) {
-			for(Users u :userlist) {
-				if(u.getEMAIL().equals(email)) {
-					users = u;
-					break;
-				}
-			}
-			
-			if(getDigester().matches(password, users.getPASSWORD()))
-				 isMatch = true;
-		}
-		
-		return isMatch;
-	}
-
-	@Override
 	public void save(Users users) {
 		Session currentSession = sessionFactory.getCurrentSession();
-		
-		String digest = getDigester().digest(users.getPASSWORD());
-		users.setPASSWORD(digest);
+		final Authorities authorities = new Authorities(users.getEMAIL(), "ROLE_USER");
+		users.setAuthorities(authorities);
 		currentSession.saveOrUpdate(users);
 	}
 
@@ -112,9 +85,7 @@ public class UserDAOImpl implements UserDAO {
 		@SuppressWarnings("rawtypes")
 		Query query = currentSession.createQuery("update Users set PASSWORD = :newPsw where ID= :theId");
 		
-		String digest = getDigester().digest(newPsw);
-		
-		query.setParameter("newPsw", digest);
+		query.setParameter("newPsw", newPsw);
 		query.setParameter("theId", theId);
 		query.executeUpdate();
 		
@@ -122,26 +93,36 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void deleteUser(int id) {
-		Session currentSession = sessionFactory.getCurrentSession();
-		@SuppressWarnings("rawtypes")
-		Query query = currentSession.createQuery("delete Users where ID= :theId");
-		query.setParameter("theId", id);
-		query.executeUpdate();
+		Session currentSession = sessionFactory.getCurrentSession();		
+		final Users theUsers = currentSession.get(Users.class, id);
+		Query<?> query = currentSession.createQuery("from Authorities where EMAIL= :email");
+		query.setParameter("email", theUsers.getEMAIL());
+		currentSession.delete(theUsers);
+		currentSession.delete(query.getSingleResult());
 		
 	}
 
 	@Override
 	public void changeUserAsGuest(int theId) throws IOException{
+		
 		Session currentSession = sessionFactory.getCurrentSession();
 		File theFile = new File(servletContext.getRealPath("/resources/images/nouser.jpg"));
 		byte[] array = Files.readAllBytes(theFile.toPath());
-		@SuppressWarnings("rawtypes")
-		Query query = currentSession.createQuery("update Users set FIRSTNAME = 'GUEST', LASTNAME = 'GUEST',"
-				+ " EMAIL = 'guest@jac.com', COUNTRY = 'EVERYWHERE', NICKNAME = 'GUEST', PASSWORD = 'GUESTXX958',"
-				+ " FAV_PROG_LANG = 'JAVA', ABOUT = 'I m a guest no need to explanation', PICTURE = :theArray, VOTE = 100 where ID= :theId");
+		Query<?> query = currentSession.createQuery("update Users set FIRSTNAME =:firstname, LASTNAME =:lastname,"
+				+ " EMAIL =:email, COUNTRY =:country, NICKNAME =:nickname, PASSWORD =:password,"
+				+ " FAV_PROG_LANG =:favLangs, ABOUT =:about, PICTURE = :theArray, VOTE =:vote where ID= :theId");
 		if (array != null && array.length > 0) {
 			query.setParameter("theArray", array);
 		}
+		query.setParameter("firstname", "GUEST");
+		query.setParameter("lastname", "GUEST");
+		query.setParameter("email", "guest@jac.com");
+		query.setParameter("country", "EVERYWHERE");
+		query.setParameter("nickname", "GUEST");
+		query.setParameter("password", "GUESTXX958");
+		query.setParameter("favLangs", "Java");
+		query.setParameter("about", "I m a guest no need to explanation");
+		query.setParameter("vote", 100);
 		query.setParameter("theId", theId);
 		query.executeUpdate();
 
@@ -196,14 +177,6 @@ public class UserDAOImpl implements UserDAO {
 		query.setParameter("uuid", uuid);
 		query.setParameter("userid", Id);
 		query.executeUpdate();
-	}
-	
-	private static PooledStringDigester getDigester() {
-		PooledStringDigester digester = new PooledStringDigester();
-		digester.setPoolSize(4);
-		digester.setAlgorithm("SHA-1");
-		digester.setIterations(50000);
-		return digester;
 	}
 
 }

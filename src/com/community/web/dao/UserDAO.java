@@ -11,8 +11,6 @@ public interface UserDAO {
 
 	public List<Users> getUserList();
 
-	public boolean checkAuth(String email, String password);
-
 	public Users getUserByEmail(String email);
 
 	public void save(Users users);

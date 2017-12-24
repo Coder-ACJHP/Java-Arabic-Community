@@ -39,8 +39,7 @@
 	<mvc:annotation-driven/>
 
 	<!-- Define Spring MVC view resolver -->
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/view/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
@@ -59,11 +58,10 @@
 		<property name="maxStatements" value="50" />
 		<property name="maxIdleTime" value="3000" />
 
-	</bean>  
-	
-    <!-- Step 2: Setup Hibernate session factory -->
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+	</bean>  	
+
+        <!-- Step 2: Setup Hibernate session factory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="myDataSource" />
 		<property name="packagesToScan" value="com.community.web" />
 		<property name="hibernateProperties">

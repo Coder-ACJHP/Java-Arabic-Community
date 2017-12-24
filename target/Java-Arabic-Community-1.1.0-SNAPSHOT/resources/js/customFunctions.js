@@ -6,6 +6,7 @@ window.onload = function() {
 	var deleteQstn = document.getElementById('delete-qstn');
 	var deleteAnswr = document.getElementById('delete-answr');
 	var headerP = document.getElementById('nav-header-p');
+	var logoutBtn = document.getElementById('log-out-link');
 	
 	if(deleteDiv) {
 		deleteDiv.addEventListener("mouseover", function() {
@@ -105,4 +106,5 @@ window.onload = function() {
 			return false;
 		});
 	}
+	
 }

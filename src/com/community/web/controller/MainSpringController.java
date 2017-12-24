@@ -1,6 +1,7 @@
 package com.community.web.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -114,16 +118,12 @@ public class MainSpringController {
 		return "user-register";
 	}
 
-	@PostMapping("LoginForm")
-	public String Login(@ModelAttribute("user") Users users, Model model, HttpServletRequest request,
+	@GetMapping("LoginForm")
+	public String Login(Principal principal, Model model, HttpServletRequest request,
 			final RedirectAttributes redirectAttributes) {
 
-		String sendTo = "";
-		boolean isRegistered = communityService.checkAuth(users.getEMAIL(), users.getPASSWORD());
-
-		if (isRegistered) {
 			
-			final Users theUser = communityService.getUserByEmail(users.getEMAIL());
+			final Users theUser = communityService.getUserByEmail(principal.getName());
 			byte[] encodeBase64 = Base64.encodeBase64(theUser.getPICTURE());
 			final String base64Encoded = new String(encodeBase64);
 			request.getSession().setAttribute("loggedInUserPicture", base64Encoded);
@@ -132,20 +132,18 @@ public class MainSpringController {
 			request.getSession().setAttribute("loggedInUserRegDate", theUser.getREGISTERDATE().substring(0, 10));
 			request.getSession().setAttribute("loggedInUserVote", theUser.getVOTE());
 
-			sendTo = "redirect:AllQuestions";
-
-		} else {
-			model.addAttribute("error", "Incorrect email or password. Please try again.");
-			sendTo = "user-signIn";
-		}
-		return sendTo;
+			return "redirect:AllQuestions";
 	}
 
-	@GetMapping("/Loguot")
+	@PostMapping("/j_spring_security_logout")
 	public String Logout(HttpServletResponse response, HttpServletRequest request, RedirectAttributes redirectAttributes) {
 		
+		final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+		}
+		
 		request.removeAttribute("loggedInUser");
-		request.getSession().invalidate();
 		redirectAttributes.addFlashAttribute("message", "We hope to see you again as soon.");
 		return "redirect:AllQuestions";
 	}
@@ -252,13 +250,13 @@ public class MainSpringController {
 			@RequestParam("subject") String subject, @RequestParam("message") String message,
 			Model model, RedirectAttributes redirectAttrs) {
 		
-		final String messageBody = "<h4>Sender : "+name+"</h4><h4>Country : "+country+"</h4>"
-				+ "<h4>Category : "+category+"</h4><pre>"+message+"</pre>";
+		final String messageBody = "<p>Sender : "+name+"</p><p>Email : "+email+"</p>"
+                        + "<p>Country : "+country+"</p><p>Category : "+category+"</p><pre>"+message+"</pre>";
 		
 		try {
 			mailSender.send((MimeMessage mimeMessage)-> {
 				MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-				messageHelper.setFrom(email);
+				messageHelper.setFrom(EMAIL);
 				messageHelper.setTo("onur.isik@codeforiraq.org");
 				messageHelper.setSubject(subject);
 				messageHelper.setText(messageBody, true);

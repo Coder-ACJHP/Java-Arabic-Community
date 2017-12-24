@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -64,6 +66,13 @@ public class Users {
 	
 	@Column(name="UUID")
 	private String UUID;
+	
+	@Column(name="ENABLED")
+	private boolean ENABLED;
+	
+	@ManyToOne
+	@JoinColumn(name="EMAIL", referencedColumnName ="EMAIL", insertable=false, updatable=false)
+	private Authorities authorities;
 	
 	public Users() {
 		
@@ -197,13 +206,168 @@ public class Users {
 		UUID = uUID;
 	}
 
+	public boolean isENABLED() {
+		return ENABLED;
+	}
+
+	public void setENABLED(boolean eNABLED) {
+		ENABLED = eNABLED;
+	}
+
+	public Authorities getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(Authorities authorities) {
+		this.authorities = authorities;
+	}
+
 	@Override
 	public String toString() {
 		return "Users [ID=" + ID + ", FIRSTNAME=" + FIRSTNAME + ", LASTNAME=" + LASTNAME + ", EMAIL=" + EMAIL
 				+ ", COUNTRY=" + COUNTRY + ", BIRTHDAY=" + BIRTHDAY + ", NICKNAME=" + NICKNAME + ", PASSWORD="
 				+ PASSWORD + ", ABOUT=" + ABOUT + ", FAV_PROG_LANG=" + FAV_PROG_LANG + ", PICTURE="
 				+ Arrays.toString(PICTURE) + ", VOTE=" + VOTE + ", ANSWERCOUNT=" + ANSWERCOUNT + ", QUESTIONCOUNT="
-				+ QUESTIONCOUNT + ", REGISTERDATE=" + REGISTERDATE + ", UUID=" + UUID + "]";
+				+ QUESTIONCOUNT + ", REGISTERDATE=" + REGISTERDATE + ", UUID=" + UUID + ", ENABLED=" + ENABLED + "]";
+	}
+
+	public Users(int iD, String fIRSTNAME, String lASTNAME, String eMAIL, String cOUNTRY, String bIRTHDAY,
+			String nICKNAME, String pASSWORD, String aBOUT, String fAV_PROG_LANG, byte[] pICTURE, int vOTE,
+			int aNSWERCOUNT, int qUESTIONCOUNT, String rEGISTERDATE, String uUID, boolean eNABLED) {
+		super();
+		ID = iD;
+		FIRSTNAME = fIRSTNAME;
+		LASTNAME = lASTNAME;
+		EMAIL = eMAIL;
+		COUNTRY = cOUNTRY;
+		BIRTHDAY = bIRTHDAY;
+		NICKNAME = nICKNAME;
+		PASSWORD = pASSWORD;
+		ABOUT = aBOUT;
+		FAV_PROG_LANG = fAV_PROG_LANG;
+		PICTURE = pICTURE;
+		VOTE = vOTE;
+		ANSWERCOUNT = aNSWERCOUNT;
+		QUESTIONCOUNT = qUESTIONCOUNT;
+		REGISTERDATE = rEGISTERDATE;
+		UUID = uUID;
+		ENABLED = eNABLED;
+	}
+
+	public Users(String eMAIL, String pASSWORD) {
+		super();
+		EMAIL = eMAIL;
+		PASSWORD = pASSWORD;
+	}
+	
+	public Users(String eMAIL, String pASSWORD, boolean eNABLED) {
+		super();
+		EMAIL = eMAIL;
+		PASSWORD = pASSWORD;
+		ENABLED = eNABLED;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ABOUT == null) ? 0 : ABOUT.hashCode());
+		result = prime * result + ANSWERCOUNT;
+		result = prime * result + ((BIRTHDAY == null) ? 0 : BIRTHDAY.hashCode());
+		result = prime * result + ((COUNTRY == null) ? 0 : COUNTRY.hashCode());
+		result = prime * result + ((EMAIL == null) ? 0 : EMAIL.hashCode());
+		result = prime * result + (ENABLED ? 1231 : 1237);
+		result = prime * result + ((FAV_PROG_LANG == null) ? 0 : FAV_PROG_LANG.hashCode());
+		result = prime * result + ((FIRSTNAME == null) ? 0 : FIRSTNAME.hashCode());
+		result = prime * result + ID;
+		result = prime * result + ((LASTNAME == null) ? 0 : LASTNAME.hashCode());
+		result = prime * result + ((NICKNAME == null) ? 0 : NICKNAME.hashCode());
+		result = prime * result + ((PASSWORD == null) ? 0 : PASSWORD.hashCode());
+		result = prime * result + Arrays.hashCode(PICTURE);
+		result = prime * result + QUESTIONCOUNT;
+		result = prime * result + ((REGISTERDATE == null) ? 0 : REGISTERDATE.hashCode());
+		result = prime * result + ((UUID == null) ? 0 : UUID.hashCode());
+		result = prime * result + VOTE;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Users other = (Users) obj;
+		if (ABOUT == null) {
+			if (other.ABOUT != null)
+				return false;
+		} else if (!ABOUT.equals(other.ABOUT))
+			return false;
+		if (ANSWERCOUNT != other.ANSWERCOUNT)
+			return false;
+		if (BIRTHDAY == null) {
+			if (other.BIRTHDAY != null)
+				return false;
+		} else if (!BIRTHDAY.equals(other.BIRTHDAY))
+			return false;
+		if (COUNTRY == null) {
+			if (other.COUNTRY != null)
+				return false;
+		} else if (!COUNTRY.equals(other.COUNTRY))
+			return false;
+		if (EMAIL == null) {
+			if (other.EMAIL != null)
+				return false;
+		} else if (!EMAIL.equals(other.EMAIL))
+			return false;
+		if (ENABLED != other.ENABLED)
+			return false;
+		if (FAV_PROG_LANG == null) {
+			if (other.FAV_PROG_LANG != null)
+				return false;
+		} else if (!FAV_PROG_LANG.equals(other.FAV_PROG_LANG))
+			return false;
+		if (FIRSTNAME == null) {
+			if (other.FIRSTNAME != null)
+				return false;
+		} else if (!FIRSTNAME.equals(other.FIRSTNAME))
+			return false;
+		if (ID != other.ID)
+			return false;
+		if (LASTNAME == null) {
+			if (other.LASTNAME != null)
+				return false;
+		} else if (!LASTNAME.equals(other.LASTNAME))
+			return false;
+		if (NICKNAME == null) {
+			if (other.NICKNAME != null)
+				return false;
+		} else if (!NICKNAME.equals(other.NICKNAME))
+			return false;
+		if (PASSWORD == null) {
+			if (other.PASSWORD != null)
+				return false;
+		} else if (!PASSWORD.equals(other.PASSWORD))
+			return false;
+		if (!Arrays.equals(PICTURE, other.PICTURE))
+			return false;
+		if (QUESTIONCOUNT != other.QUESTIONCOUNT)
+			return false;
+		if (REGISTERDATE == null) {
+			if (other.REGISTERDATE != null)
+				return false;
+		} else if (!REGISTERDATE.equals(other.REGISTERDATE))
+			return false;
+		if (UUID == null) {
+			if (other.UUID != null)
+				return false;
+		} else if (!UUID.equals(other.UUID))
+			return false;
+		if (VOTE != other.VOTE)
+			return false;
+		return true;
 	}
 	
 }

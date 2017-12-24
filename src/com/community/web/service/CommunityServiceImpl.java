@@ -99,14 +99,6 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	@Transactional
-	public boolean checkAuth(String email, String password) {
-		boolean isRegistered = false;
-		isRegistered = userDAO.checkAuth(email, password);
-		return isRegistered;
-	}
-
-	@Override
-	@Transactional
 	public Users getUserByEmail(String email) {
 		Users users = userDAO.getUserByEmail(email);
 		return users;

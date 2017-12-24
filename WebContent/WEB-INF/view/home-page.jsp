@@ -77,7 +77,7 @@
     
     	
     	<div class="row">
-    		<div class="col-lg-10 col-lg-offset-2">
+    		<div class="col-lg-9 col-lg-offset-2">
 				<div class="col-sm-2">
 					<c:choose>
 						<c:when test="${not empty Label}">

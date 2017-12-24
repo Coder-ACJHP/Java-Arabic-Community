@@ -23,10 +23,10 @@
 <body>
     <jsp:include page="logedOut.jsp" />
     
-<!-- HANDLE ALL MESSAGES COMING FROM BACKEND -->
-	<c:if test="${not empty error}">
+<!-- HANDLE ALL MESSAGES COMING FROM BACKEND ON URL -->
+	<c:if test="${'true' eq param.error}">
 		<script type="text/javascript">
-			sweetAlert("Oops...", "${error}", "error");
+			sweetAlert("Oops...", 'Invalid user name or password!', "error");
 		</script>
 	</c:if>
 	<c:if test="${not empty success}">
@@ -43,7 +43,7 @@
             </h2>
             <hr style="margin-bottom: 20px; margin-top: 5px;">
             
-            <form:form action="LoginForm" modelAttribute="user" method="POST">
+            <form:form action="j_spring_security_check" modelAttribute="user" method="POST">
                 <!-- need to associate this data with customer id -->
                 <form:hidden path="ID" />
                 <input type="hidden" name="from" value="${previousUrl}">
@@ -54,12 +54,20 @@
                     <div class="form-group">
                         <form:input type="password" path="PASSWORD" class="form-control" placeholder="Password" required="required"/>
                     </div>
-                    <div class="row">
-	                	<div class="col-sm-8 col-sm-offset-3">
-	                    	<button type="reset" class="btn btn-info" style="width:150px;"><i class="glyphicon glyphicon-trash"></i> Clear</button>
-	                   		<button type="submit" class="btn btn-primary" style="width:150px;"><i class="glyphicon glyphicon-log-in"></i> Login</button>
-	                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                        	<div class="col-md-4" id="remember-lbl"><label>Remember Me?</label></div>
+                        	<div class="col-md-1"><input type="checkbox" id="rememberme" name="remember-me" class="checkbox-inp"/></div>
+                        	<div class="col-md-7"></div>
+                        </div>
                     </div>
+                    <div class="row">
+	                <div class="col-sm-8 col-sm-offset-3">
+	                    <button type="reset" class="btn btn-info" style="width:150px;"><i class="glyphicon glyphicon-trash"></i> Clear</button>
+	                    <button type="submit" class="btn btn-primary" style="width:150px;"><i class="glyphicon glyphicon-log-in"></i> Login</button>
+	                </div>
+                    </div>
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 </form:form> 
 
                 <div class="row"><div class="col-lg-12">&nbsp;&nbsp;</div></div>

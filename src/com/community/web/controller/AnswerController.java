@@ -19,6 +19,7 @@ import com.community.web.entity.Answer;
 import com.community.web.entity.Question;
 import com.community.web.service.CommunityService;
 import com.community.web.util.VerifyRecaptcha;
+import java.time.LocalDateTime;
 
 @Controller
 public class AnswerController {
@@ -41,7 +42,9 @@ public class AnswerController {
 		if (verify) {
 			int Id = answer.getQUESTIONSID();
 			int responderId = answer.getUSERID();
-
+                        
+                        //add the date manually
+                        answer.setCREATIONDATE(LocalDateTime.now().toString());
 			communityService.saveAnswer(answer);
 			communityService.updateUserAnswerCount(responderId);
 			communityService.setQuestionIsAnswered(Id);

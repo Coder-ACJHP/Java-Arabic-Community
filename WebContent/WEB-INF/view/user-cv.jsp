@@ -182,9 +182,9 @@
 			<div class="row">
 				<c:set var="count" value="${0}" />
 				<c:forEach var="tempQuestionsList" items="${questionList}">
-					<div class="col-lg-9 col-lg-offset-2" id="questionCardRow">
+					<div class="col-lg-8 col-lg-offset-2" id="questionCardRow">
 						<div class="card-block">
-							<div class="col-sm-2 center-block" style="margin-top: 20px;">
+							<div class="col-md-1 center-block" style="margin-top: 20px;">
 								<c:url var="Question" value="/Question">
 									<c:param name="questionId" value="${tempQuestionsList.ID}" />
 								</c:url>
@@ -223,7 +223,7 @@
 								</c:choose>
 							</div>
 							<!-- ---------------------------------------UP IS O.K.---------------------------------------------------- -->
-							<div class="col-md-10 center-block">
+							<div class="col-md-11 center-block">
 
 								<div class="row">
 									<div class="col-lg-12">
