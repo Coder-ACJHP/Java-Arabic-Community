@@ -60,7 +60,7 @@
 
 	<div class="container">            	    	
     	<div class="row">
-    		<div class="col-lg-10 col-lg-offset-1">
+    		<div class="col-lg-12 col-lg-offset-1">
 				<div class="col-sm-2">
 					<p style="font-size: 18px; min-width: 150px;"><b>Question : ${question.ID}</b></p>
 				</div>

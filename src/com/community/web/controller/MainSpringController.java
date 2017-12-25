@@ -134,6 +134,7 @@ public class MainSpringController {
 
 			
 			final Users theUser = communityService.getUserByEmail(principal.getName());
+                        
 			byte[] encodeBase64 = Base64.encodeBase64(theUser.getPICTURE());
 			final String base64Encoded = new String(encodeBase64);
 			request.getSession().setAttribute("loggedInUserPicture", base64Encoded);
