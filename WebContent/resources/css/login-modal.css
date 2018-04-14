@@ -1,0 +1,39 @@
+.modal-outline {
+	width: 416px;
+	border-radius: 4px;
+	background-color: transparent;
+	color: #285e8e;
+	border: 1px solid #285e8e;
+	transition: all .5s;
+	padding: 6px;
+}
+
+.modal-outline:hover {
+	background-color: #3071a9;
+	color: #fff;
+}
+
+.modal-close {
+	width: 130px;
+	border-radius: 4px;
+	background-color: transparent;
+	color: #ac2925;
+	border: 1px solid #ac2925;
+	transition: all .5s;
+	float: left;
+	padding: 6px;
+}
+
+.modal-close:hover {
+	background-color: #c9302c;
+	color: #fff;
+}
+
+.modal-dialog {
+	width: 450px;
+	margin: 40px auto;
+}
+
+.error-lbl {
+	color: #c9302c;
+}

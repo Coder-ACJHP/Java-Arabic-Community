@@ -1,0 +1,1 @@
+tinymce.init({selector:"#mytextarea",theme:"modern",skin:"lightgray",width:"auto",height:200,statubar:!0,menubar:!1,plugins:["autolink link image lists charmap preview hr anchor pagebreak code wordcount codesample"],toolbar:"undo redo | styleselect | bold italic | link image | codesample | preview",plugin_preview_height:500,code_dialog_width:500})
