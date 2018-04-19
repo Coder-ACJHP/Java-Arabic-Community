@@ -15,10 +15,9 @@
    <code>java -jar target/dependency/webapp-runner.jar target/*.war</code>
  </li>
 </ol>
-
-<h2>Test it in live demo site : </h2> 
-<h3>Important note : </h3><label>It may work slow because it's working on free plan (Heroku dynos sleeping in 30 min) so if you get "Application error" just refresh the page and it will work.</label>
 <div>
+<h2>Test it in live demo site : </h2> 
+<label><b>Important note : </b>It may work slow because it's working on free plan (Heroku dynos sleeping in 30 min) so if you get "Application error" just refresh the page and it will work.</label>
 <a href="https://java-arabic-community.herokuapp.com">java-arabic-community.herokuapp.com/</a>
 </div> 
 
