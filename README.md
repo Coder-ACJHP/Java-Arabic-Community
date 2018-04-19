@@ -17,6 +17,7 @@
 </ol>
 
 <h2>Test it in live demo site : </h2> 
+<h3>Important note : </h3><label>It may work slow because it's working on free plan (Heroku dynos sleeping in 30 min) so if you get "Application error" just refresh the page and it will work.</label>
 <div>
 <a href="https://java-arabic-community.herokuapp.com">java-arabic-community.herokuapp.com/</a>
 </div> 
